@@ -1,0 +1,30 @@
+.SingleTweetBlock {
+    border-block-end: inherit;
+
+}
+.btn {
+    background-color: DodgerBlue; /* Blue background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 6px 8px; /* Some padding */
+    font-size: 8px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+    float: right;
+    
+   
+  }
+  .btn:hover {
+    background-color: RoyalBlue;
+  }
+
+  .btnEdit {
+    background-color: rgb(25, 21, 134); /* Blue background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 6px 8px; /* Some padding */
+    font-size: 8px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+    float: right;
+    
+   
+  }

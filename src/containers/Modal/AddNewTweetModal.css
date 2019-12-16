@@ -1,0 +1,23 @@
+.AddNewTweetModal {
+    position: fixed;
+    z-index: 600;
+    background-color: lightblue;
+    width: 18%;
+    height: 100%;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px black;
+    padding: 16px;
+    left: 5.5%;
+    top: 0.5%;
+    box-sizing: border-box;
+    transition: all 0.3s ease-out;
+}
+
+.AddNewTweetModal h2 {
+    color: black;
+}
+
+textarea {
+    width: 80%;
+    height: 150px;
+}
