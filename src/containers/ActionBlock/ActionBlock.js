@@ -6,9 +6,12 @@ import DisplayBlock from '../DisplayBlock/DisplayBlock';
 import EditModal from '../Modal/EditModal';
 import { connect } from 'react-redux';
 import AddNewTweetModal from '../Modal/AddNewTweetModal';
+import SearchModal from '../Modal/SearchModal';
+import SearchResultDisplayblock from '../DisplayBlock/SearchResultDisplayBlock';
 
 class ActionBlock extends Component {
     render() {
+        console.log(this.props.searchResult)
         return(
             <Fragment>
                 <header className="ActionBlock">
@@ -18,6 +21,8 @@ class ActionBlock extends Component {
                 <DisplayBlock />
                 {this.props.isNewTweetModalOpen ? <AddNewTweetModal />: ''}
                 {this.props.isEditModalOpen ? <EditModal /> : '' }
+                {this.props.isSearchModalOpen ? <SearchModal />: ''}
+                {this.props.searchResult ? <SearchResultDisplayblock />: ''}
             </Fragment>
         )
     }
@@ -26,7 +31,9 @@ class ActionBlock extends Component {
 const mapStateToProps = state => {
     return {
         isNewTweetModalOpen: state.isNewTweetModalOpen,
-        isEditModalOpen: state.isEditModalOpen
+        isEditModalOpen: state.isEditModalOpen,
+        isSearchModalOpen: state.isSearchModalOpen,
+        searchResult: state.searchResult.length
     }
 }
 

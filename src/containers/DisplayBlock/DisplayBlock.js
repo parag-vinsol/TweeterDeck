@@ -9,7 +9,7 @@ class DisplayBlock extends Component{
             <div className="DisplayBlock">
                 {this.props.tweets.reverse().map((tweet, index) => {
                     return <SingleTweetBlock key={index} tweetsToBeDisplayed={tweet['tweet-text']} tweetIndex={index} />
-                })}
+                })} 
             </div>
         )
     }

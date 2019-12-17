@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './SearchModal.css'
 
 class SearchModal extends Component {
@@ -23,10 +24,17 @@ class SearchModal extends Component {
             <div className="SearchModal">
                 <h2>search</h2>
                 <input type="text" onChange={this.searchTextSetter} placeholder="Search" value={this.state.search} />
-                <button onClick={this.searchTweetHandler}>Search</button>
+                <button onClick={() => this.props.searchTweetHandler(this.state.search)}>Search</button>
             </div>
         )
     }
 }
 
-export default SearchModal;
+
+const mapDispatchToProps = dispatch => {
+    return{
+        searchTweetHandler: (searchText) => dispatch({type: "SEARCHTWEET", searchText})
+    }
+}
+
+export default connect(null, mapDispatchToProps)(SearchModal);

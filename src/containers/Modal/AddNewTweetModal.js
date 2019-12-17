@@ -25,7 +25,7 @@ class AddNewTweetModal extends Component {
     render() {
         return(
             <Fragment>
-            {this.props.postedTweet ? null : (<div className="AddNewTweetModal">
+            {this.props.isAddNewTweetModalOpen ? null : (<div className="AddNewTweetModal">
                 <h2>Tweet</h2>
                 <textarea onChange={this.onWritingTweetHandler} placeholder="What's happening?" value={this.state.tweet}></textarea>
                 <button onClick={() => this.props.onPostingTweet(this.state.tweet)}>Post Tweet</button>
@@ -37,7 +37,7 @@ class AddNewTweetModal extends Component {
 const mapStateToProps = state => {
     return{
         tweets: state.tweets,
-        postedTweet: state.postedTweet
+        isAddNewTweetModalOpen: state.isAddNewTweetModalOpen
     }
 }
 const mapDispatchToProps = dispatch => {

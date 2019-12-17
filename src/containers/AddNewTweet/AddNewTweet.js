@@ -12,16 +12,16 @@ class AddNewTweet extends Component {
         )
     }
 }
-const mapStateToProps = state => {
-    return {
-        isNewTweetModalOpen : state.isNewTweetModalOpen
-    }
+// const mapStateToProps = state => {
+//     return {
+//         isNewTweetModalOpen : state.isNewTweetModalOpen
+//     }
     
-}
+// }
 const mapDispatchToState = dispatch => {
     return {
         openNewTweetModal: () => dispatch({type: "OPENADDNEWMODAL"})
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToState)(AddNewTweet);
+export default connect(null ,mapDispatchToState)(AddNewTweet);
