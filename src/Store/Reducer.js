@@ -5,7 +5,8 @@ const initialState = {
     tweetText: '',
     isNewTweetModalOpen: false,
     isSearchModalOpen: false,
-    searchResult: []  
+    searchResult: [],
+    searchText: ''  
 }
 
 const reducer  = (state = initialState, action) => {
@@ -25,24 +26,34 @@ const reducer  = (state = initialState, action) => {
     }
     if(action.type === "DELETE") {
         let indexToBeDeleted = null;
+        let searchResult = state.searchResult;
         state.tweets.map((tweet, index) => {
             if(tweet['tweet-text'] === action.tweetText) {
                 indexToBeDeleted = index;
 
             }
         })
-        console.log(indexToBeDeleted)
         let tweets = JSON.parse(localStorage.getItem('tweets'));
-        console.log(tweets);
         tweets.reverse().splice(indexToBeDeleted, 1);
         tweets.reverse();
+        if(searchResult.length) {
+            let indexOfSearchResult = null
+            state.searchResult.map((tweet, index) => {
+                if(tweet['tweet-text'] === action.tweetText) {
+                    indexOfSearchResult = index;
+                }
+            })
+            searchResult.splice(indexOfSearchResult, 1);
+        }
+        
         
         localStorage.setItem("tweets", JSON.stringify(tweets));
         return{
             ...state,
             'tweets': tweets,
             isEditModalOpen: false,
-            isNewTweetModalOpen: false
+            isNewTweetModalOpen: false,
+            searchResult: searchResult
         }
     }
     if(action.type === "OPENEDITMODAL") {
@@ -92,16 +103,14 @@ const reducer  = (state = initialState, action) => {
     }
     if(action.type === "SEARCHTWEET") {
         let searchResult = state.searchResult
-        console.log(searchResult)
-        let searchText = action.searchText;
-        if(searchText) {
-            let myPattern = new RegExp('(\\w*' +searchText + '\\w*)','gi');
+        state.searchText = action.searchText;
+        if(state.searchText) {
+            let myPattern = new RegExp('(\\w*' + state.searchText + '\\w*)','gi');
             state.tweets.forEach(element => {
             if((element['tweet-text'].match(myPattern))) {
-                searchResult.push(element)
+                searchResult.unshift(element)
             }
         });
-        console.log(searchResult)
         }
          
         return {

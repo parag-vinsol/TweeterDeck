@@ -11,7 +11,6 @@ import SearchResultDisplayblock from '../DisplayBlock/SearchResultDisplayBlock';
 
 class ActionBlock extends Component {
     render() {
-        console.log(this.props.searchResult)
         return(
             <Fragment>
                 <header className="ActionBlock">

@@ -4,11 +4,8 @@ import './SearchResultDisplayBlock.css'
 import SingleTweetBlock from './SingleTweetBlock';
 
 class SearchResultDisplayblock extends Component {
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
-    }
     render() {
-        console.log(this.props.searchResult, this.state);
+        console.log(this.props.searchResult)
         return(
             <div className="SearchResultDisplayBlock">
                 {this.props.searchResult.map((tweet, index) => {
@@ -18,10 +15,11 @@ class SearchResultDisplayblock extends Component {
         )
     }
 }
+// length used because searchResult is not rerendering
 const mapStateToProps = state => {
-    console.log(state)
     return {
-        searchResult: state.searchResult
+        searchResult: state.searchResult,
+        searchResultLength: state.searchResult.length
     }
 }
 export default connect(mapStateToProps)(SearchResultDisplayblock);
