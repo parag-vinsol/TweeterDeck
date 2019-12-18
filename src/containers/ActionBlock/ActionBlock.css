@@ -1,11 +1,11 @@
 .ActionBlock {
-    float:left;
-    margin:1px;
-    padding:5px;
-    width:70px;
-    height:730px;
-    vertical-align:middle; /*obvi doesn't work because it's not an inline element */
-    text-align:center;
-    background:#336699;
-    color:#fff;
+  float:left;
+  margin:1px;
+  padding:5px;
+  width:70px;
+  height:730px;
+  vertical-align:middle; /*obvi doesn't work because it's not an inline element */
+  text-align:center;
+  background:#336699;
+  color:#fff;
 }

@@ -1,30 +1,28 @@
 .EditModal {
-    position: fixed;
-    z-index: 500;
-    background-color: white;
-    width: 16%;
-    border: 1px solid rgb(73, 71, 71);
-    box-shadow: 1px 1px 1px black;
-    padding: 16px 32px;
-    left: 35.5%;
-    top: 30%;
-    box-sizing: border-box;
-    transition: all 0.3s ease-out;
+  position: fixed;
+  z-index: 500;
+  background-color: white;
+  width: 16%;
+  border: 1px solid rgb(73, 71, 71);
+  box-shadow: 1px 1px 1px black;
+  padding: 16px 32px;
+  left: 35.5%;
+  top: 30%;
+  box-sizing: border-box;
+  transition: all 0.3s ease-out;
 }
 .SearchModal h2 {
-    color: black;
+  color: black;
 }
 .CloseBtn {
-    background-color: rgb(145, 165, 185); /* Blue background */
-    border: none; /* Remove borders */
-    color: white; /* White text */
-    padding: 6px 8px; /* Some padding */
-    font-size: 8px; /* Set a font size */
-    cursor: pointer; /* Mouse pointer on hover */
-    float: right;
-    
-   
+  background-color: rgb(145, 165, 185); /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 6px 8px; /* Some padding */
+  font-size: 8px; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+  float: right;
   }
-  .CloseBtn:hover {
-    background-color: rgb(135, 157, 224);
-  }
+.CloseBtn:hover {
+  background-color: rgb(135, 157, 224);
+}
