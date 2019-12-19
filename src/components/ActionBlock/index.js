@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import './ActionBlock.css';
-import AddNewTweet from '../AddNewTweet/AddNewTweet';
-import SearchBlock from '../SearchBlock/SearchBlock';
-import DisplayBlock from '../DisplayBlock/DisplayBlock';
+import '../../Styles/ActionBlock.css';
+import AddNewTweet from '../AddNewTweet';
+import SearchBlock from '../SearchBlock';
+import DisplayBlock from '../DisplayBlock';
 import EditModal from '../Modal/EditModal';
 import { connect } from 'react-redux';
 import AddNewTweetModal from '../Modal/AddNewTweetModal';
@@ -18,10 +18,10 @@ class ActionBlock extends Component {
           <SearchBlock />
         </header>
         <DisplayBlock />
-        {this.props.isNewTweetModalOpen ? <AddNewTweetModal />: ''}
-        {this.props.isEditModalOpen ? <EditModal /> : '' }
-        {this.props.isSearchModalOpen ? <SearchModal />: ''}
-        {this.props.searchResult ? <SearchResultDisplayblock />: ''}
+        {this.props.isNewTweetModalOpen && <AddNewTweetModal />}
+        {this.props.isEditModalOpen && <EditModal />  }
+        {this.props.isSearchModalOpen && <SearchModal />}
+        {this.props.searchResult ? <SearchResultDisplayblock /> : ''}
       </Fragment>
     )
   }
@@ -36,4 +36,6 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(ActionBlock);
+ActionBlock = connect(mapStateToProps)(ActionBlock);
+
+export default ActionBlock;

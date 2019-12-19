@@ -1,6 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react';
-import './SingleTweetBlock.css';
+import '../../Styles/SingleTweetBlock.css';
 import { connect } from 'react-redux';
+import * as ActionTypes from '../../Helper/Constants'
 
 class SingleTweetBlock extends Component {
   render() {   
@@ -8,9 +9,10 @@ class SingleTweetBlock extends Component {
       <Fragment>
         <div className="SingleTweetBlock">
           {this.props.tweetsToBeDisplayed} 
-          <button className="btnEdit" onClick={() => this.props.openEditModal(this.props.tweetsToBeDisplayed)}><i className="fa fa-edit"></i></button>
-          <button className="btn" onClick={() => this.props.onDeletingTweet(this.props.tweetsToBeDisplayed)}><i  className="fa fa-close"></i></button>
-          
+          <br></br>
+          <button className="btn" onClick={() => this.props.onDeletingTweet(this.props.id)}><i  className="fa fa-close"></i></button>
+          <button className="btnEdit" onClick={() => this.props.openEditModal(this.props.id)}><i className="fa fa-edit"></i></button>
+          {this.props.isEdited ? <p className="Edited">edited</p> : ''}
         </div>
       </Fragment>
         
@@ -27,8 +29,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    openEditModal: (tweetText) => dispatch({type: "OPENEDITMODAL", tweetText}),
-    onDeletingTweet: (tweetText) => dispatch({type: "DELETE", tweetText})
+    openEditModal: (id) => dispatch({type: ActionTypes.OPEN_EDIT_MODAL, id}),
+    onDeletingTweet: (id) => dispatch({type: ActionTypes.DELETE, id})
   }
 }
 

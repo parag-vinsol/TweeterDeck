@@ -1,5 +1,5 @@
-.SearchResultDisplayBlock {
-  position: absolute;
+.DisplayBlock {
+  position: relative;
   display: block;
   background-color: white;
   width: 25%;
@@ -7,13 +7,9 @@
   border: 1px solid #ccc;
   box-shadow: 1px 1px 1px black;
   padding: 16px;
-  left: 30.6%;
+  left: 5.5%;
   top: 0.5%;
   box-sizing: border-box;
   transition: all 0.3s ease-out;
+  min-height: 735px;
 }
-
-.CloseBtn {
-  float: inline-end;
-  padding: 8px;
-} 

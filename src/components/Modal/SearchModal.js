@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './SearchModal.css'
+import '../../Styles/SearchModal.css';
+import * as ActionTypes from '../../Helper/Constants';
 
 class SearchModal extends Component {
   state = {
@@ -33,7 +34,7 @@ class SearchModal extends Component {
 
 const mapDispatchToProps = dispatch => {
   return{
-    searchTweetHandler: (searchText) => dispatch({type: "SEARCHTWEET", searchText})
+    searchTweetHandler: (searchText) => dispatch({type: ActionTypes.SEARCH_TWEET, searchText})
   }
 }
 

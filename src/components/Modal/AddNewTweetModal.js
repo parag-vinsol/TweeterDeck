@@ -1,16 +1,13 @@
 import React, { Component, Fragment } from 'react' 
-import './AddNewTweetModal.css';
-import DisplayBlock from '../DisplayBlock/DisplayBlock';
+import '../../Styles/AddNewTweetModal.css';
 import { connect } from 'react-redux';
+import * as ActionTypes from '../../Helper/Constants'
 
 class AddNewTweetModal extends Component {
   constructor() {
     super();     
     this.state = {
         tweet:''
-    }
-    if(!localStorage.getItem('tweets')) {
-      localStorage.setItem('tweets', JSON.stringify([]));
     }
   }
     
@@ -40,7 +37,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    onPostingTweet: (tweet) => dispatch({type: 'POST', tweet})
+    onPostingTweet: (tweet) => dispatch({type: ActionTypes.POST, tweet})
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AddNewTweetModal);

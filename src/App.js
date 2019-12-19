@@ -1,13 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
-import TweetDeck from './components/TweetDeck/TweetDeck';
+import './Styles/App.css';
+import TweetDeck from './components/TweetDeck';
 
 function App() {
   return (
-    <div>
       <TweetDeck />
-    </div>
   );
 }
 

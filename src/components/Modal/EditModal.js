@@ -1,19 +1,19 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import './EditModal.css';
+import '../../Styles/EditModal.css';
+import * as ActionTypes from '../../Helper/Constants'
 
 class EditModal extends Component {
   state = {
     tweet: this.props.tweetText,
-    EditingStarted: false
+    editingStarted: false
   }
   onChangeEditHandler = (event) => {
-    this.setState({EditingStarted: true})
-    this.setState({tweet: event.target.value})
+    this.setState({editingStarted: true, tweet: event.target.value});
   }
 
   static getDerivedStateFromProps(props, state) {
-    if(!state.EditingStarted){
+    if(!state.editingStarted){
       return {tweet: props.tweetText};
     }
     return null
@@ -25,22 +25,23 @@ class EditModal extends Component {
         <button className="CloseBtn" onClick={this.props.onCancelEdit}><i  className="fa fa-close"></i></button>
         <h2>Edit Tweet</h2>
         <textarea value={this.state.tweet} onChange={this.onChangeEditHandler}></textarea>
-        <button onClick={() => this.props.onEditing(this.state.tweet, this.props.tweetText)}>Edit</button>
+        <button onClick={() => this.props.onEditing(this.state.tweet, this.props.id)}>Edit</button>
       </div>        
     )
   }
 }
-const mapStageToProp = state => {
+const mapStateToProp = state => {
   return{
     isEditModalOpen: state.isEditModalOpen,
     tweetText: state.tweetText,
-    index: state.index
+    index: state.index,
+    id: state.id
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
-    onEditing: (editedTweetText, oldTweet) => dispatch({type: "EDIT", editText: editedTweetText, oldTweet}),
-    onCancelEdit: () => dispatch({type:"CANCELEDIT"})
+    onEditing: (editedTweetText, id) => dispatch({type: ActionTypes.EDIT, editText: editedTweetText, id}),
+    onCancelEdit: () => dispatch({type: ActionTypes.CANCEL_EDIT})
   }
 }
-export default connect(mapStageToProp, mapDispatchToProps)(EditModal);
+export default connect(mapStateToProp, mapDispatchToProps)(EditModal);

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import './SearchResultDisplayBlock.css'
+import '../../Styles/SearchResultDisplayBlock.css'
 import SingleTweetBlock from './SingleTweetBlock';
+import * as ActionTypes from '../../Helper/Constants'
 
 class SearchResultDisplayblock extends Component {
   render() {
@@ -12,7 +13,7 @@ class SearchResultDisplayblock extends Component {
         </div>
         <br></br>
         {this.props.searchResult.map((tweet, index) => {
-          return <SingleTweetBlock key={index} tweetsToBeDisplayed={tweet['tweet-text']} tweetIndex={index} />
+          return <SingleTweetBlock key={index} tweetsToBeDisplayed={tweet['tweet-text']} tweetIndex={index} isEdited={tweet['isEdited']} id={tweet['id']} />
         })}
       </div>
     )
@@ -28,7 +29,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    closeSearchBlock: () => dispatch({type: "CLOSESEARCHBLOCK"})
+    closeSearchBlock: () => dispatch({type: ActionTypes.CLOSE_SEARCH_BLOCK})
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SearchResultDisplayblock);
