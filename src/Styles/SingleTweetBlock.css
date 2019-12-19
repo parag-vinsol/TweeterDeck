@@ -2,6 +2,7 @@
   border-block-end: inherit;
   padding: 24px;
 }
+
 .btn {
   background-color: DodgerBlue; /* Blue background */
   border: none; /* Remove borders */
@@ -9,22 +10,33 @@
   padding: 6px 8px; /* Some padding */
   font-size: 8px; /* Set a font size */
   cursor: pointer; /* Mouse pointer on hover */
-  float: right;
-  }
+}
+
 .btn:hover {
   background-color: RoyalBlue;
 }
 
 .btnEdit {
-  background-color: rgb(25, 21, 134); /* Blue background */
-  border: none; /* Remove borders */
-  color: white; /* White text */
-  padding: 6px 8px; /* Some padding */
-  font-size: 8px; /* Set a font size */
-  cursor: pointer; /* Mouse pointer on hover */
-  float: right;
+  background-color: rgb(25, 21, 134); 
+  border: none; 
+  color: white; 
+  padding: 6px 8px; 
+  font-size: 8px; 
+  cursor: pointer; 
 }
+
 .Edited {
   color: #59bb61;;
+}
 
+
+.SingleTweetBlock .optionsContainer {
+  width: 100%;
+  display: inline-block;
+  text-align: right;
+}
+
+.SingleTweetBlock .optionsContainer p, .SingleTweetBlock .optionsContainer button{
+  display: inline-block;
+  margin: 0px 5px;
 }
