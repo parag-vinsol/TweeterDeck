@@ -13,7 +13,7 @@ class SearchResultDisplayblock extends Component {
         </div>
         <br></br>
         {this.props.searchResult.map((tweet, index) => {
-          return <SingleTweetBlock key={index} tweetsToBeDisplayed={tweet['tweet-text']} tweetIndex={index} isEdited={tweet['isEdited']} id={tweet['id']} />
+          return <SingleTweetBlock key={index} tweetsToBeDisplayed={tweet['tweet-text']} tweetIndex={index} postedTime={tweet['postedTime']} isEdited={tweet['isEdited']} id={tweet['id']} />
         })}
       </div>
     )

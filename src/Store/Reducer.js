@@ -135,8 +135,9 @@ const IndexBasedOnTweetList = (id, tweetList) => {
 
 const addNewTweet = (tweet) => {
   let tweets = JSON.parse(localStorage.getItem('tweets'));
-  let id = getIdForTheTweet(tweets);
-  tweets.unshift({'tweet-text': tweet, isEdited: false, id: id});
+  let id = getIdForTheTweet(tweets); 
+  let date = new Date();
+  tweets.unshift({'tweet-text': tweet, isEdited: false, id: id, postedTime: date.toLocaleString()});
   localStorage.setItem('tweets', JSON.stringify(tweets));
   return tweets;
 }

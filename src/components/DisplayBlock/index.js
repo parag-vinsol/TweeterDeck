@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 class DisplayBlock extends Component{
   mapToSingleTweet = () =>(
     this.props.tweets.map((tweet, index) => (
-       <SingleTweetBlock key={index} tweetsToBeDisplayed={tweet['tweet-text']} tweetIndex={index} isEdited={tweet['isEdited']} id={tweet['id']}/>
+       <SingleTweetBlock key={index} tweetsToBeDisplayed={tweet['tweet-text']} tweetIndex={index} isEdited={tweet['isEdited']} postedTime={tweet['postedTime']} id={tweet['id']}/>
   ))
   )
   render() {
