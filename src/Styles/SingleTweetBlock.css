@@ -32,7 +32,7 @@
 
 .SingleTweetBlock .optionsContainer {
   width: 110%;
-  display: inline-block;
+  display: inline;
   text-align: right;
 }
 

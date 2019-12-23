@@ -7,7 +7,7 @@ import EditModal from '../Modal/EditModal';
 import { connect } from 'react-redux';
 import AddNewTweetModal from '../Modal/AddNewTweetModal';
 import SearchModal from '../Modal/SearchModal';
-import SearchResultDisplayblock from '../DisplayBlock/SearchResultDisplayBlock';
+import SearchResult from '../DisplayBlock/SearchResults'
 
 class ActionBlock extends Component {
   render() {
@@ -21,7 +21,7 @@ class ActionBlock extends Component {
         {this.props.isNewTweetModalOpen && <AddNewTweetModal />}
         {this.props.isEditModalOpen && <EditModal />  }
         {this.props.isSearchModalOpen && <SearchModal />}
-        {this.props.searchResult ? <SearchResultDisplayblock /> : ''}
+        {this.props.searchResult ? <SearchResult /> : ''}
       </Fragment>
     )
   }

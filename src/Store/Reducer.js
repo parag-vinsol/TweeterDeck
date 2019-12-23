@@ -11,7 +11,8 @@ const initialState = {
   searchResult: [],
   searchText: '',
   toggleChange: false,
-  id: null  
+  id: null,
+  searchCounter: -1  
 }
 
 
@@ -96,27 +97,35 @@ const reducer  = (state = initialState, action) => {
     }
   }
   if(action.type === ActionTypes.SEARCH_TWEET) {
-    let searchResult = state.searchResult
-    state.searchText = action.searchText;
-    if(state.searchText) {
-      const SEARCH_PATTERN = new RegExp('(\\w*' + state.searchText + '\\w*)','gi');
+    let counter = state.searchCounter + 1;
+    let searchResultForParticularText = [];
+    let searchResult = state.searchResult;
+    let searchText = action.searchText;
+    if(searchText) {
+      const SEARCH_PATTERN = new RegExp('(\\w*' + searchText + '\\w*)','gi');
       state.tweets.forEach(element => {
         if((element['tweet-text'].match(SEARCH_PATTERN))) {
-          searchResult.unshift(element)
+          searchResultForParticularText.push(element);
         }
       });
+      searchResult.push(searchResultForParticularText)
     }  
     return {
       ...state,
       searchResult: searchResult,
-      isSearchModalOpen: !state.isSearchModalOpen
+      isSearchModalOpen: !state.isSearchModalOpen,
+      searchText: searchText,
+      searchCounter: counter
     }
   }
   if(action.type === ActionTypes.CLOSE_SEARCH_BLOCK) {
-    let searchResultList = [];
+    let searchResultList = state.searchResult;    
+    searchResultList[action.searchCounter] = [];
     return {
       ...state,
-      searchResult: searchResultList
+      searchResult: searchResultList,
+      toggleChange: !state.toggleChange
+
     }
   }
   return state;

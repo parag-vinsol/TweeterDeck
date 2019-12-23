@@ -5,18 +5,24 @@ import * as ActionTypes from '../../Helper/Constants'
 
 class SingleTweetBlock extends Component {
   render() {  
+    let tweetToBeDisplayed = "";
     let postedDateTime = new Date(this.props.postedTime);
     let presentDateTime = new Date();
     let minMinutesReq = 10;
-    let validatedEdit = (presentDateTime - postedDateTime)/(1000 * 60) < minMinutesReq;
-    let visibilty = "inline-block";
+    let visibilty = "";
     if(((presentDateTime - postedDateTime)/(1000 * 60)) < minMinutesReq) {
-      visibilty = "inline-none";
+      visibilty = "none";
+    }
+    if(this.props.searchText) {
+      tweetToBeDisplayed = this.props.tweetsToBeDisplayed.replace(this.props.searchText, "<mark>$&</mark>")
+    }
+    else {
+      tweetToBeDisplayed = this.props.tweetsToBeDisplayed;
     }
     return(
       <Fragment>
         <div className="SingleTweetBlock">
-          <p>{this.props.tweetsToBeDisplayed}</p>
+          <p dangerouslySetInnerHTML={{__html: tweetToBeDisplayed}}></p>
           <div className="optionsContainer">
             {this.props.isEdited ? <p className="Edited">edited</p> : ''}
             <p>{this.props.postedTime}</p>

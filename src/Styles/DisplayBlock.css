@@ -1,6 +1,6 @@
 .DisplayBlock {
   position: relative;
-  display: block;
+  display: inline-block;
   background-color: white;
   width: 25%;
   height: 100%;

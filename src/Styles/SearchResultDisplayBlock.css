@@ -1,6 +1,6 @@
 .SearchResultDisplayBlock {
-  position: absolute;
-  display: block;
+  position: relative;
+  display: inline-block;
   background-color: white;
   width: 25%;
   height: 100%;

@@ -9,27 +9,23 @@ class SearchResultDisplayblock extends Component {
     return(
       <div className="SearchResultDisplayBlock">
         <div>
-          <button className="CloseBtn" onClick={this.props.closeSearchBlock}><i className="fa fa-close"></i></button>
+          <input type="input" disabled value={this.props.searchText}/>
+          {<button className="CloseBtn" onClick={() => this.props.closeSearchBlock(this.props.searchCounter)}><i className="fa fa-close"></i></button> }
         </div>
-        <br></br>
         {this.props.searchResult.map((tweet, index) => {
-          return <SingleTweetBlock key={index} tweetsToBeDisplayed={tweet['tweet-text']} tweetIndex={index} postedTime={tweet['postedTime']} isEdited={tweet['isEdited']} id={tweet['id']} />
+          return <SingleTweetBlock key={index} searchText={this.props.searchText} tweetsToBeDisplayed={tweet['tweet-text']} tweetIndex={index} postedTime={tweet['postedTime']} isEdited={tweet['isEdited']} id={tweet['id']} />
         })}
       </div>
     )
   }
 }
-// length used because searchResult is not rerendering
-const mapStateToProps = state => {
-  return {
-    searchResult: state.searchResult,
-    searchResultLength: state.searchResult.length,
-    changesDone: state.toggleChange
-  }
-}
+
+
+
 const mapDispatchToProps = dispatch => {
   return {
-    closeSearchBlock: () => dispatch({type: ActionTypes.CLOSE_SEARCH_BLOCK})
+    closeSearchBlock: (searchCounter) => dispatch({type: ActionTypes.CLOSE_SEARCH_BLOCK, searchCounter})
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(SearchResultDisplayblock);
+
+export default connect(null, mapDispatchToProps)(SearchResultDisplayblock);

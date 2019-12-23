@@ -7,9 +7,11 @@ class SearchModal extends Component {
   state = {
     search: ''
   }
+  
   searchTextSetter = (event) => {
     this.setState({search: event.target.value.trim()})
   }
+
   searchTweetHandler = () => {
     let searchText = this.state.search;
     if(searchText) {
@@ -17,9 +19,9 @@ class SearchModal extends Component {
         for(let i in tweets) {
             let tweetText = tweets[i]["tweet-text"];
         }
-    }
-      
+    }    
   }
+  
   render() {
     return(
       <div className="SearchModal">
