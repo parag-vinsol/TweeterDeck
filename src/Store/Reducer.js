@@ -21,6 +21,7 @@ const initialState = {
 const reducer  = (state = initialState, action) => {
   if(action.type === ActionTypes.POST) {
     let tweet  = action.tweet;
+    console.log(state.searchResult)
     if(tweet.trim()) {
       let tweets = Methods.addNewTweet(tweet);
       return{
@@ -32,8 +33,8 @@ const reducer  = (state = initialState, action) => {
     }
   }
   if(action.type === ActionTypes.DELETE) {
-    let searchResult = state.searchResult,
-      tweets = Methods.deleteFromDisplay(action.id, state.tweets),
+    let searchResult = state.searchResult;
+    let  tweets = Methods.deleteFromDisplay(action.id, state.tweets),
       searchResultReturned = Methods.deleteFromSearchResult(searchResult, action.id);
     localStorage.setItem("tweets", JSON.stringify(tweets));
     return{

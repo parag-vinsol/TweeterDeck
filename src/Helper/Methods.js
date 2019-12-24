@@ -41,10 +41,26 @@ export const deleteFromDisplay = (id, allTweets) => {
 
 export const deleteFromSearchResult = (searchResult, id) => {
   if(searchResult.length) {
-    let indexOfSearchResult = indexBasedOnTweetList(id, searchResult);
-    searchResult.splice(indexOfSearchResult, 1);
+    let resultingSearchTweet = [];
+    
+    let indexOfSearchResult = null
+    searchResult.forEach(element => {
+      indexOfSearchResult = indexBasedOnTweetList(id, element['searchResult']);
+      let searchTweetObj = {
+        id: null,
+        searchResult: null,
+        searchText: ''
+      }
+      element['searchResult'].splice(indexOfSearchResult, 1);
+      searchTweetObj['id'] = element['id'];
+      searchTweetObj['searchResult'] = element['searchResult'];
+      searchTweetObj['searchText'] = element['searchText'];
+      resultingSearchTweet.push(searchTweetObj)
+      
+    });
+    return resultingSearchTweet;
   }
-  return searchResult;
+  
 }
   
 export const getTweetTextById = (id, allTweets) => {

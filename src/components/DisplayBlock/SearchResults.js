@@ -9,7 +9,7 @@ class SearchResults extends Component {
     return (
       searchResultList.map((search, index) => {
         if(search['searchResult'].length) {
-          return <SearchResultDisplayblock key={index} searchResult={search}/>
+          return <SearchResultDisplayblock key={index} searchResult={search} changesDone={this.props.changesDone}/>
         }
       })
     )

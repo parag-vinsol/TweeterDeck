@@ -13,6 +13,8 @@ class SearchResultDisplayblock extends Component {
     }))
   }
 
+  
+
   render() {
     return(
       <div className="SearchResultDisplayBlock">
