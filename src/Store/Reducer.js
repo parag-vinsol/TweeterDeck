@@ -1,4 +1,5 @@
 import * as ActionTypes from '../Helper/Constants';
+import * as Methods from '../Helper/Methods';
 
 const initialState = {
   'tweets': localStorage.getItem('tweets') ? JSON.parse(localStorage.getItem('tweets')) : [],
@@ -12,7 +13,7 @@ const initialState = {
   searchText: '',
   toggleChange: false,
   id: null,
-  searchCounter: -1  
+  searchCounter: -1
 }
 
 
@@ -21,7 +22,7 @@ const reducer  = (state = initialState, action) => {
   if(action.type === ActionTypes.POST) {
     let tweet  = action.tweet;
     if(tweet.trim()) {
-      let tweets = addNewTweet(tweet);
+      let tweets = Methods.addNewTweet(tweet);
       return{
         ...state,
         'tweets': tweets,
@@ -31,9 +32,9 @@ const reducer  = (state = initialState, action) => {
     }
   }
   if(action.type === ActionTypes.DELETE) {
-    let searchResult = state.searchResult;
-    let tweets = deleteFromDisplay(action.id, state.tweets);
-    let searchResultReturned = deleteFromSearchResult(searchResult, action.id);
+    let searchResult = state.searchResult,
+      tweets = Methods.deleteFromDisplay(action.id, state.tweets),
+      searchResultReturned = Methods.deleteFromSearchResult(searchResult, action.id);
     localStorage.setItem("tweets", JSON.stringify(tweets));
     return{
       ...state,
@@ -44,7 +45,7 @@ const reducer  = (state = initialState, action) => {
     }
   }
   if(action.type === ActionTypes.OPEN_EDIT_MODAL) {
-    let tweet = getTweetTextById(action.id, state.tweets);
+    let tweet = Methods.getTweetTextById(action.id, state.tweets);
     return {
         ...state,
         isEditModalOpen:true,
@@ -65,12 +66,12 @@ const reducer  = (state = initialState, action) => {
     }
   }
   if(action.type === ActionTypes.EDIT) {
-    let editedTweets = EditTweet(action.id, state.tweets, action.editText);
-    let searchResultList = state.searchResult;
+    let editedTweets = Methods.editTweet(action.id, state.tweets, action.editText),
+      searchResultList = state.searchResult;
     localStorage.setItem("tweets", JSON.stringify(editedTweets));
     let change = null;
     if(searchResultList.length) {
-      searchResultList = EditTweet(action.id, state.searchResult, action.editText);
+      searchResultList = Methods.editTweet(action.id, state.searchResult, action.editText);
       change = !state.toggleChange
      }
     return {
@@ -97,105 +98,34 @@ const reducer  = (state = initialState, action) => {
     }
   }
   if(action.type === ActionTypes.SEARCH_TWEET) {
-    let counter = state.searchCounter + 1;
-    let searchResultForParticularText = [];
-    let searchResult = state.searchResult;
-    let searchText = action.searchText;
+    let counter = state.searchCounter + 1,
+      searchResultForParticularText = [],
+      searchResult = state.searchResult,
+      searchText = action.searchText;
     if(searchText) {
-      const SEARCH_PATTERN = new RegExp('(\\w*' + searchText + '\\w*)','gi');
-      state.tweets.forEach(element => {
-        if((element['tweet-text'].match(SEARCH_PATTERN))) {
-          searchResultForParticularText.push(element);
-        }
-      });
-      searchResult.push(searchResultForParticularText)
+      searchResultForParticularText = Methods.searchTweetFromText(searchText, state.tweets);
+      let searchResultObj = Methods.saveSearchResultToObj(searchResultForParticularText, searchText, searchResult);
+      searchResult.push(searchResultObj)
     }  
     return {
       ...state,
       searchResult: searchResult,
-      isSearchModalOpen: !state.isSearchModalOpen,
-      searchText: searchText,
-      searchCounter: counter
+      isSearchModalOpen: !state.isSearchModalOpen
     }
   }
   if(action.type === ActionTypes.CLOSE_SEARCH_BLOCK) {
-    let searchResultList = state.searchResult;    
-    searchResultList[action.searchCounter] = [];
+    let searchResultList = state.searchResult,
+      index = Methods.indexBasedOnTweetList(action.id, searchResultList);
+    searchResultList.splice(index, 1); 
     return {
       ...state,
       searchResult: searchResultList,
       toggleChange: !state.toggleChange
-
     }
   }
   return state;
 }
 
-const IndexBasedOnTweetList = (id, tweetList) => {
-  let resultIndex = null;
-  tweetList.map((tweet, index) => {
-    if(tweet['id'] === id) {
-      resultIndex = index;
-      return resultIndex;
-    }
-  });
-  return resultIndex;
-}
 
-const addNewTweet = (tweet) => {
-  let tweets = JSON.parse(localStorage.getItem('tweets'));
-  let id = getIdForTheTweet(tweets); 
-  let date = new Date();
-  tweets.unshift({'tweet-text': tweet, isEdited: false, id: id, postedTime: date.toLocaleString()});
-  localStorage.setItem('tweets', JSON.stringify(tweets));
-  return tweets;
-}
-const getIdForTheTweet = (tweets) => {
-  if(tweets.length === 0) {
-    return 1;
-  } 
-  else {
-    let id = null;
-    tweets.forEach(element => {
-      if(id <= element["id"]) {
-        id = element["id"]
-      }
-    });
-    return id + 1;
-  }
-}
-
-const deleteFromDisplay = (id, allTweets) => {
-  let indexToBeDeleted = IndexBasedOnTweetList(id, allTweets);
-  let tweets = JSON.parse(localStorage.getItem('tweets'));
-  tweets.splice(indexToBeDeleted, 1);
-  return tweets;
-}
-const deleteFromSearchResult = (searchResult, id) => {
-  if(searchResult.length) {
-    let indexOfSearchResult = IndexBasedOnTweetList(id, searchResult);
-    searchResult.splice(indexOfSearchResult, 1);
-  }
-  return searchResult;
-}
-const getTweetTextById = (id, allTweets) => {
-  let tweetText = null;
-  allTweets.forEach(element => {
-    if(element["id"] == id) {
-      tweetText = (element["tweet-text"])
-    }
-  });
-  return tweetText
-}
-const EditTweet = (id, tweetList, editText) => {
-  let tweets = [];
-  tweetList.forEach(element => {
-    if(element['id'] == id) {
-      element['tweet-text'] = editText;
-      element['isEdited'] = true;
-    }
-  });
-  return tweetList;
-}
 
 export default reducer;

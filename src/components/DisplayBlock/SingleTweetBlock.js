@@ -1,23 +1,18 @@
 import React, { Component, Fragment, createRef } from 'react';
-import '../../Styles/SingleTweetBlock.css';
 import { connect } from 'react-redux';
-import * as ActionTypes from '../../Helper/Constants'
+
+import '../../Styles/SingleTweetBlock.css';
+import HighlightMatchedText from '../../Helper/HighlightMatchedText';
+import {OPEN_EDIT_MODAL, DELETE} from '../../Helper/Constants';
+import ValidateEditTime from '../../Helper/ValidateEditTime';
+
 
 class SingleTweetBlock extends Component {
   render() {  
-    let tweetToBeDisplayed = "";
-    let postedDateTime = new Date(this.props.postedTime);
-    let presentDateTime = new Date();
-    let minMinutesReq = 10;
-    let visibilty = "";
-    if(((presentDateTime - postedDateTime)/(1000 * 60)) < minMinutesReq) {
-      visibilty = "none";
-    }
+    let tweetToBeDisplayed = this.props.tweetsToBeDisplayed,
+      visibilty = ValidateEditTime(this.props.postedTime);
     if(this.props.searchText) {
-      tweetToBeDisplayed = this.props.tweetsToBeDisplayed.replace(this.props.searchText, "<mark>$&</mark>")
-    }
-    else {
-      tweetToBeDisplayed = this.props.tweetsToBeDisplayed;
+      tweetToBeDisplayed = HighlightMatchedText(this.props.searchText, this.props.tweetsToBeDisplayed)
     }
     return(
       <Fragment>
@@ -26,7 +21,7 @@ class SingleTweetBlock extends Component {
           <div className="optionsContainer">
             {this.props.isEdited ? <p className="Edited">edited</p> : ''}
             <p>{this.props.postedTime}</p>
-            <button className="btnEdit" style={{display:visibilty}} onClick={() => this.props.openEditModal(this.props.id)}><i className="fa fa-edit"></i></button>
+            <button className={visibilty} style={{display:visibilty}} onClick={() => this.props.openEditModal(this.props.id)}><i className="fa fa-edit"></i></button>
             <button className="btn" onClick={() => this.props.onDeletingTweet(this.props.id)}><i  className="fa fa-close"></i></button>
             
           </div>
@@ -46,8 +41,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    openEditModal: (id) => dispatch({type: ActionTypes.OPEN_EDIT_MODAL, id}),
-    onDeletingTweet: (id) => dispatch({type: ActionTypes.DELETE, id})
+    openEditModal: (id) => dispatch({type: OPEN_EDIT_MODAL, id}),
+    onDeletingTweet: (id) => dispatch({type: DELETE, id})
   }
 }
 

@@ -1,6 +1,7 @@
 .SearchResult {
     position: absolute;
     display: inline-block;
-    width: 90%;
-    left: 46px;
+    left: 469px;
+    white-space: nowrap;
+    
 }

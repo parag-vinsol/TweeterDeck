@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux'
-import * as ActionTypes from '../../Helper/Constants'
+import { connect } from 'react-redux';
+
+import {OPEN_ADD_NEW_MODAL} from '../../Helper/Constants'
 
 class AddNewTweet extends Component {
   render() {
@@ -13,7 +14,7 @@ class AddNewTweet extends Component {
 }
 const mapDispatchToState = dispatch => {
   return {
-    openNewTweetModal: () => dispatch({type: ActionTypes.OPEN_ADD_NEW_MODAL})
+    openNewTweetModal: () => dispatch({type: OPEN_ADD_NEW_MODAL})
   }
 }
 

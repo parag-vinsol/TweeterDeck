@@ -1,14 +1,18 @@
-import React, { Component, Fragment } from 'react';
-import SingleTweetBlock from './SingleTweetBlock';
-import '../../Styles/DisplayBlock.css';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import SingleTweetBlock from './SingleTweetBlock';
+import '../../Styles/DisplayBlock.css';
+
+
 class DisplayBlock extends Component{
-  mapToSingleTweet = () =>(
-    this.props.tweets.map((tweet, index) => (
-       <SingleTweetBlock key={index} tweetsToBeDisplayed={tweet['tweet-text']} searchText={null} tweetIndex={index} isEdited={tweet['isEdited']} postedTime={tweet['postedTime']} id={tweet['id']}/>
-  ))
-  )
+  mapToSingleTweet() {
+    return (
+      this.props.tweets.map((tweet, index) => (
+        <SingleTweetBlock key={index} tweetsToBeDisplayed={tweet['tweet-text']} searchText={null} tweetIndex={index} isEdited={tweet['isEdited']} postedTime={tweet['postedTime']} id={tweet['id']}/>
+     ))
+    )
+  }
   render() {
     return(
       <div className="DisplayBlock">

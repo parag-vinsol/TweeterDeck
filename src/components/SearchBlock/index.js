@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import * as ActionTypes from '../../Helper/Constants'
+
+import {OPEN_SEARCH} from '../../Helper/Constants'
 
 class SearchBlock extends Component {
   render() {
@@ -13,7 +14,7 @@ class SearchBlock extends Component {
 }
 const mapDispatchToProps = dispatch => {
   return{
-    openSearchModal: () => dispatch({type: ActionTypes.OPEN_SEARCH})
+    openSearchModal: () => dispatch({type: OPEN_SEARCH})
   }
 }
 SearchBlock = connect(null, mapDispatchToProps)(SearchBlock);

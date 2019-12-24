@@ -1,7 +1,8 @@
-import React, { Component, Fragment } from 'react' 
-import '../../Styles/AddNewTweetModal.css';
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux';
-import * as ActionTypes from '../../Helper/Constants'
+
+import '../../Styles/AddNewTweetModal.css';
+import { POST } from '../../Helper/Constants'
 
 class AddNewTweetModal extends Component {
   constructor() {
@@ -16,14 +17,13 @@ class AddNewTweetModal extends Component {
 
   onWritingTweetHandler = (event) => {
     
-    let val = event.target.value;
-    let urlLength = 0;
-    let length = val.length;
-    let urlLengthToBeCounted = 0;
-    const URL_REGEX = /^(ftp|https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*$/
-    const TAGS_REGEX = /^(#.+)$/
-    let words = val.split(' ');
-    let latestWord = words[words.length-1];
+    let val = event.target.value,
+      urlLength = 0,
+      length = val.length,
+      urlLengthToBeCounted = 0;
+    const URL_REGEX = /^(ftp|https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*$/,
+      TAGS_REGEX = /^(#.+)$/;
+    let words = val.split(' ')
     words.reverse().forEach(element => {
       if(element.match(URL_REGEX)) {
         urlLength = element.match(URL_REGEX).input.length;
@@ -61,7 +61,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    onPostingTweet: (tweet) => dispatch({type: ActionTypes.POST, tweet})
+    onPostingTweet: (tweet) => dispatch({type: POST, tweet})
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AddNewTweetModal);

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import '../../Styles/EditModal.css';
-import * as ActionTypes from '../../Helper/Constants'
+import {CANCEL_EDIT, EDIT} from '../../Helper/Constants'
 
 class EditModal extends Component {
   state = {
@@ -40,8 +40,8 @@ const mapStateToProp = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    onEditing: (editedTweetText, id) => dispatch({type: ActionTypes.EDIT, editText: editedTweetText, id}),
-    onCancelEdit: () => dispatch({type: ActionTypes.CANCEL_EDIT})
+    onEditing: (editedTweetText, id) => dispatch({type: EDIT, editText: editedTweetText, id}),
+    onCancelEdit: () => dispatch({type: CANCEL_EDIT})
   }
 }
 export default connect(mapStateToProp, mapDispatchToProps)(EditModal);
