@@ -15,6 +15,13 @@ export const addNewTweet = (tweet) => {
     id = getIdForTheTweet(tweets),
     date = new Date();
   tweets.unshift({'tweet-text': tweet, isEdited: false, id: id, postedTime: date.toLocaleString()});
+  let doc = {
+    "id": id,
+    "tweet-text": tweet,
+    "isEdited": false,
+    "postedTime": date.toLocaleString()
+  }
+  window.elasticDBIndex.addDoc(doc);
   localStorage.setItem('tweets', JSON.stringify(tweets));
   return tweets;
 }
@@ -108,10 +115,9 @@ export const searchTweetFromText = (searchText, tweets) => {
     bool: "OR",
     expand: true
   });
-  let searchTweetList = []
   searchResult.map(({ ref, score }) => {
     const doc = window.elasticDBIndex.documentStore.getDoc(ref);
-    searchResultForParticularText.push(doc);
+    searchResultForParticularText.unshift(doc);
   });
   return searchResultForParticularText;
 }

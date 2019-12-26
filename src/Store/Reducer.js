@@ -12,20 +12,36 @@ const initialState = {
   searchResult: [],
   searchText: '',
   toggleChange: false,
-  id: null,
-  searchCounter: -1
+  id: null
 }
 
 const reducer  = (state = initialState, action) => {
   if(action.type === ActionTypes.POST) {
     let tweet  = action.tweet;
     if(tweet.trim()) {
-      let tweets = Methods.addNewTweet(tweet);
+      let tweets = Methods.addNewTweet(tweet),
+      searchResultForParticularText = [],
+      searchResult = state.searchResult;
+      if(state.searchResult.length) {
+        let allTweets = JSON.parse(localStorage.getItem('tweets')),
+          searchTexts = [];
+        searchResult = []
+        let searchResults = state.searchResult;
+        searchResults.forEach(element => {
+          searchTexts.push(element['searchText'])
+        });
+        searchTexts.forEach(searchText => {
+          searchResultForParticularText = Methods.searchTweetFromText(searchText, allTweets);
+          let searchResultObj = Methods.saveSearchResultToObj(searchResultForParticularText, searchText, searchResult);
+          searchResult.push(searchResultObj)
+        })
+      }
       return{
         ...state,
         'tweets': tweets,
         isEditModalOpen: false,
-        isNewTweetModalOpen: !state.isNewTweetModalOpen
+        isNewTweetModalOpen: !state.isNewTweetModalOpen,
+        searchResult: searchResult
       }
     }
   }
@@ -96,8 +112,7 @@ const reducer  = (state = initialState, action) => {
     }
   }
   if(action.type === ActionTypes.SEARCH_TWEET) {
-    let counter = state.searchCounter + 1,
-      searchResultForParticularText = [],
+      let searchResultForParticularText = [],
       searchResult = state.searchResult,
       searchText = action.searchText;
     if(searchText) {
