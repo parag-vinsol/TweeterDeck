@@ -1,13 +1,14 @@
+
 export const indexBasedOnTweetList = (id, tweetList) => {
-    let resultIndex = null;
-    tweetList.map((tweet, index) => {
-      if(tweet['id'] === id) {
-        resultIndex = index;
-        return resultIndex;
-      }
-    });
-    return resultIndex;
-  }
+  let resultIndex = null;
+  tweetList.map((tweet, index) => {
+    if(tweet['id'] === id) {
+      resultIndex = index;
+      return resultIndex;
+    }
+  });
+  return resultIndex;
+}
   
 export const addNewTweet = (tweet) => {
   let tweets = JSON.parse(localStorage.getItem('tweets')),
@@ -17,6 +18,7 @@ export const addNewTweet = (tweet) => {
   localStorage.setItem('tweets', JSON.stringify(tweets));
   return tweets;
 }
+
 export const getIdForTheTweet = (tweets) => {
   if(tweets.length === 0) {
     return 1;
@@ -40,8 +42,8 @@ export const deleteFromDisplay = (id, allTweets) => {
 }
 
 export const deleteFromSearchResult = (searchResult, id) => {
+  let resultingSearchTweet = [];
   if(searchResult.length) {
-    let resultingSearchTweet = [];
     
     let indexOfSearchResult = null
     searchResult.forEach(element => {
@@ -58,8 +60,9 @@ export const deleteFromSearchResult = (searchResult, id) => {
       resultingSearchTweet.push(searchTweetObj)
       
     });
-    return resultingSearchTweet;
+    
   }
+  return resultingSearchTweet;
   
 }
   
@@ -74,7 +77,6 @@ export const getTweetTextById = (id, allTweets) => {
 }
   
 export const editTweet = (id, tweetList, editText) => {
-  let tweets = [];
   tweetList.forEach(element => {
     if(element['id'] == id) {
       element['tweet-text'] = editText;
@@ -84,13 +86,32 @@ export const editTweet = (id, tweetList, editText) => {
   return tweetList;
 }
   
+export const editTweetForSearchResult = (id, tweetList, editText) => {
+  tweetList.forEach(element => {
+    element['searchResult'].forEach(searchElement => {
+      if(searchElement['id'] == id) {
+        searchElement['tweet-text'] = editText;
+        searchElement['isEdited'] = true;
+      }
+    })
+    
+  });
+  return tweetList;
+}
+
 export const searchTweetFromText = (searchText, tweets) => {
-  let searchResultForParticularText = [];
-  const SEARCH_PATTERN = new RegExp('(\\w*' + searchText + '\\w*)','gi');
-  tweets.forEach(element => {
-    if((element['tweet-text'].match(SEARCH_PATTERN))) {
-      searchResultForParticularText.push(element);
-    }
+  let searchResultForParticularText = []; 
+  let searchResult = window.elasticDBIndex.search(searchText, {
+    fields: {
+        'tweet-text': {boost: 1}
+    },
+    bool: "OR",
+    expand: true
+  });
+  let searchTweetList = []
+  searchResult.map(({ ref, score }) => {
+    const doc = window.elasticDBIndex.documentStore.getDoc(ref);
+    searchResultForParticularText.push(doc);
   });
   return searchResultForParticularText;
 }
@@ -114,4 +135,3 @@ export const getPreviousIdOfSearchResults = (searchResult) => {
   }
   return -1
 }
-

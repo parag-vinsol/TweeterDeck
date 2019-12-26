@@ -16,12 +16,9 @@ const initialState = {
   searchCounter: -1
 }
 
-
-
 const reducer  = (state = initialState, action) => {
   if(action.type === ActionTypes.POST) {
     let tweet  = action.tweet;
-    console.log(state.searchResult)
     if(tweet.trim()) {
       let tweets = Methods.addNewTweet(tweet);
       return{
@@ -72,7 +69,7 @@ const reducer  = (state = initialState, action) => {
     localStorage.setItem("tweets", JSON.stringify(editedTweets));
     let change = null;
     if(searchResultList.length) {
-      searchResultList = Methods.editTweet(action.id, state.searchResult, action.editText);
+      searchResultList = Methods.editTweetForSearchResult(action.id, state.searchResult, action.editText);
       change = !state.toggleChange
      }
     return {

@@ -6,8 +6,18 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './Store/Reducer';
 import * as serviceWorker from './serviceWorker';
+import elasticlunr from 'elasticlunr';
 
 const store = createStore(reducer);
+
+let elasticDBIndex = elasticlunr(function () {
+    this.addField('tweet-text');
+    this.addField('isEdited');
+    this.addField('postedTime')
+    this.setRef('id');
+});
+
+window.elasticDBIndex = elasticDBIndex;
 
 ReactDOM.render(<Provider store={store}> <App /> </Provider>, document.getElementById('root'));
 
