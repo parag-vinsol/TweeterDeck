@@ -3,16 +3,39 @@ import { connect } from 'react-redux';
 
 import '../../Styles/SingleTweetBlock.css';
 import HighlightMatchedText from '../../Helper/HighlightMatchedText';
-import {OPEN_EDIT_MODAL, DELETE} from '../../Helper/Constants';
+import { OPEN_EDIT_MODAL, DELETE, URL_REGEX, TAGS_REGEX, MENTION_TAGS, REPOSITORY_TAGS } from '../../Helper/Constants';
 import ValidateEditTime from '../../Helper/ValidateEditTime';
 
 
 class SingleTweetBlock extends Component {
+  URL_Tags_MentionsHandler = () => {
+    let tweet = this.props.tweetsToBeDisplayed;
+    let finalTweet = [];
+    tweet.split(' ').forEach(element => {
+      if(element.match(URL_REGEX)) {
+        finalTweet.push(`<a target='_blank' href='//${element.match(URL_REGEX)[0]}'>${element.match(URL_REGEX)[0]}<a>`);
+      }
+      else if(element.match(TAGS_REGEX)) {
+        finalTweet.push(`<a data-tags=tags class="hover">${element.match(TAGS_REGEX)[0]}</a>`);
+      }
+      else if(element.match(MENTION_TAGS)) {
+        finalTweet.push(`<a data-mentions=mentions class="hover">${element.match(MENTION_TAGS)[0]}</a>`);
+      }
+      else if(element.match(REPOSITORY_TAGS)) {
+        finalTweet.push(`<a data-repository=repository class="hover">${element.match(REPOSITORY_TAGS)[0]}</a>`);
+      }
+      else {
+        finalTweet.push(element);
+      }
+    })
+    let newTweet = finalTweet.join(' ');
+    return newTweet;
+  }
   render() {  
-    let tweetToBeDisplayed = this.props.tweetsToBeDisplayed,
+    let tweetToBeDisplayed = this.URL_Tags_MentionsHandler(),
       visibilty = ValidateEditTime(this.props.postedTime);
     if(this.props.searchText) {
-      tweetToBeDisplayed = HighlightMatchedText(this.props.searchText, this.props.tweetsToBeDisplayed)
+      tweetToBeDisplayed = HighlightMatchedText(this.props.searchText, tweetToBeDisplayed)
     }
     return(
       <Fragment>

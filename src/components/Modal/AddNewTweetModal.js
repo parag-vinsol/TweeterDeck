@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux';
 
 import '../../Styles/AddNewTweetModal.css';
+import FetchLengthOfTweet from '../../Helper/FetchLengthOfTweet'
 import { POST } from '../../Helper/Constants'
 
 class AddNewTweetModal extends Component {
@@ -16,28 +17,9 @@ class AddNewTweetModal extends Component {
     
 
   onWritingTweetHandler = (event) => {
-    
     let val = event.target.value,
-      urlLength = 0,
-      length = val.length,
-      urlLengthToBeCounted = 0;
-    const URL_REGEX = /^(ftp|https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*$/,
-      TAGS_REGEX = /^(#.+)$/;
-    let words = val.split(' ')
-    words.reverse().forEach(element => {
-      if(element.match(URL_REGEX)) {
-        urlLength = element.match(URL_REGEX).input.length;
-        urlLengthToBeCounted = urlLengthToBeCounted + 8;
-        length = length - urlLength;
-      }
-      else if(element.match(TAGS_REGEX)) {
-        urlLength = element.match(TAGS_REGEX).input.length;
-        length = length - urlLength
-      }
-      
-    });
-    
-    this.setState({tweet: val, counter: 160 - length - urlLengthToBeCounted});    
+      length = FetchLengthOfTweet(val);    
+    this.setState({tweet: val, counter: length});    
   }
     
   render() {

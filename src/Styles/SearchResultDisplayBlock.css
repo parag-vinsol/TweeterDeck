@@ -19,3 +19,7 @@
   float: inline-end;
   padding: 8px;
 } 
+
+.image-width{
+  width: 50%;
+}

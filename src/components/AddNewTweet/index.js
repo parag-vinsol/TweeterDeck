@@ -7,7 +7,7 @@ class AddNewTweet extends Component {
   render() {
     return(
       <Fragment>
-        <button onClick={this.props.openNewTweetModal}>New Tweet</button>
+        <button  onClick={this.props.openNewTweetModal}>New Tweet</button>
       </Fragment>
     )
   }

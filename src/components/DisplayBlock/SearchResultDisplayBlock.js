@@ -20,7 +20,7 @@ class SearchResultDisplayblock extends Component {
       <div className="SearchResultDisplayBlock">
         <div>
           <input type="input" disabled value={this.props.searchResult['searchText']}/>
-          {<button className="CloseBtn" onClick={() => this.props.closeSearchBlock(this.props.searchResult['id'])}><i className="fa fa-close"></i></button> }
+          <button className="CloseBtn" onClick={() => this.props.closeSearchBlock(this.props.searchResult['id'])}><i className="fa fa-close"></i></button> 
         </div>
         {this.callSingleTweet()}
       </div>

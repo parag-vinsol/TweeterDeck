@@ -113,7 +113,8 @@ export const searchTweetFromText = (searchText, tweets) => {
         'tweet-text': {boost: 1}
     },
     bool: "OR",
-    expand: true
+    expand: true,
+    highlight: true
   });
   searchResult.map(({ ref, score }) => {
     const doc = window.elasticDBIndex.documentStore.getDoc(ref);
@@ -141,3 +142,4 @@ export const getPreviousIdOfSearchResults = (searchResult) => {
   }
   return -1
 }
+

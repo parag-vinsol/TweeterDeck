@@ -9,8 +9,11 @@ import EditModal from '../Modal/EditModal';
 import SearchBlockButton from '../SearchBlock';
 import SearchModal from '../Modal/SearchModal';   
 import SearchResult from '../DisplayBlock/SearchResults'
+import UserInfo from '../DisplayBlock/UserInfo';
+import Repositories from '../DisplayBlock/Repositories';
 
 class ActionBlock extends Component {
+  
   render() {
     return(
       <Fragment>
@@ -23,6 +26,8 @@ class ActionBlock extends Component {
         {this.props.isEditModalOpen && <EditModal />  }
         {this.props.isSearchModalOpen && <SearchModal />}
         {this.props.searchResult.length && <SearchResult />}
+        {this.props.users.length && <UserInfo />}
+        {this.props.repositories.length && <Repositories /> }
       </Fragment>
     )
   }
@@ -33,7 +38,12 @@ const mapStateToProps = state => {
     isNewTweetModalOpen: state.isNewTweetModalOpen,
     isEditModalOpen: state.isEditModalOpen,
     isSearchModalOpen: state.isSearchModalOpen,
-    searchResult: state.searchResult
+    searchResult: state.searchResult,
+    changesDone: state.toggleChange,
+    users: state.users,
+    usersLength: state.users.length,
+    repositories: state.repositories,
+    repoLength: state.repositories.length
   }
 }
 

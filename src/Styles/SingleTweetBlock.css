@@ -25,6 +25,10 @@
   cursor: pointer; 
 }
 
+.hover {
+  cursor: pointer; 
+}
+
 .Edited {
   color: #59bb61;;
 }

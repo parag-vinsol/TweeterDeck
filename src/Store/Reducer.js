@@ -1,5 +1,6 @@
 import * as ActionTypes from '../Helper/Constants';
 import * as Methods from '../Helper/Methods';
+import _ from 'underscore'
 
 const initialState = {
   'tweets': localStorage.getItem('tweets') ? JSON.parse(localStorage.getItem('tweets')) : [],
@@ -12,7 +13,9 @@ const initialState = {
   searchResult: [],
   searchText: '',
   toggleChange: false,
-  id: null
+  id: null,
+  users: [],
+  repositories: []
 }
 
 const reducer  = (state = initialState, action) => {
@@ -36,6 +39,7 @@ const reducer  = (state = initialState, action) => {
           searchResult.push(searchResultObj)
         })
       }
+      
       return{
         ...state,
         'tweets': tweets,
@@ -119,16 +123,17 @@ const reducer  = (state = initialState, action) => {
       searchResultForParticularText = Methods.searchTweetFromText(searchText, state.tweets);
       let searchResultObj = Methods.saveSearchResultToObj(searchResultForParticularText, searchText, searchResult);
       searchResult.push(searchResultObj)
-    }  
+    } 
     return {
       ...state,
       searchResult: searchResult,
-      isSearchModalOpen: !state.isSearchModalOpen
+      isSearchModalOpen: false,
+      toggleChange: !state.toggleChange
     }
   }
   if(action.type === ActionTypes.CLOSE_SEARCH_BLOCK) {
     let searchResultList = state.searchResult,
-      index = Methods.indexBasedOnTweetList(action.id, searchResultList);
+    index = Methods.indexBasedOnTweetList(action.id, searchResultList);
     searchResultList.splice(index, 1); 
     return {
       ...state,
@@ -136,9 +141,32 @@ const reducer  = (state = initialState, action) => {
       toggleChange: !state.toggleChange
     }
   }
-  return state;
+  if(action.type === ActionTypes.SEARCH_TAGS) {
+    return {
+      ...state,
+      users: [...state.users, action.user],
+      toggleChange: !state.toggleChange
+    }
+  }
+
+  if(action.type === ActionTypes.CLOSE_USER_BLOCK) {
+    let users = _(state.users).filter(function(item) {
+      return item.id !== action.id
+    })
+    return{
+      ...state,
+      users: users
+    }
+  }
+  if(action.type === ActionTypes.SEARCH_REPOSITORIES) {
+    let repo = state.repositories;
+    repo.push(action.repositoryList);
+    return {
+      ...state,
+      repositories: repo,
+      toggleChange: !state.toggleChange
+    }
+  }
+  return state;  
 }
-
-
-
 export default reducer;
