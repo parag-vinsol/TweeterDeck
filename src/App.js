@@ -18,7 +18,10 @@ class App extends React.Component {
 
   render() {
     return (
-        <TweetDeck />
+        <div className="App">
+          <TweetDeck />
+        </div>
+        
     );
   }
 }

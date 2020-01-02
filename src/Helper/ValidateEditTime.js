@@ -4,7 +4,7 @@ const validateEditTime = (postedTime) => {
       minMinutesReq = 10,
       visibilty = "btnEdit";
     if(((presentDateTime - postedDateTime)/(1000 * 60)) < minMinutesReq) {
-      visibilty = "btnEdit hiddenVisibilty";
+      visibilty =  `${visibilty} hiddenVisibilty`;
     }
     return visibilty
 }

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import User from './User';
-import '../../Styles/SearchResult.css'
+import '../../Styles/UserSearchResult.css'
 
 class UserInfo extends Component {
   renderUserInfo = () =>{
@@ -15,7 +15,7 @@ class UserInfo extends Component {
   }
   render() {
     return(
-      <div className="SearchResult">
+      <div className="UserSearchResult">
         {this.renderUserInfo()}
       </div>
       

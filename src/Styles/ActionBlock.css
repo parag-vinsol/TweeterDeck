@@ -1,6 +1,7 @@
 .ActionBlock {
   position: absolute;
   float:left;
+  white-space: normal;
   margin:1px;
   padding:5px;
   width:70px;

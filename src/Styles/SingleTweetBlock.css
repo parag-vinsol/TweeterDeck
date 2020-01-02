@@ -1,6 +1,12 @@
 .SingleTweetBlock {
   border-block-end: inherit;
   padding: 17px;
+  white-space: normal;
+  overflow: hidden;
+}
+
+.SingleTweetBlock p a {
+  white-space: normal;
 }
 
 .btn {
@@ -37,7 +43,7 @@
 .SingleTweetBlock .optionsContainer {
   width: 110%;
   display: inline-block;
-  text-align: right;
+  text-align:  -webkit-center;
 }
 
 

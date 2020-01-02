@@ -1,7 +1,7 @@
-.SearchResult {
+.RepoSearchResult {
     position: relative;
     display: inline-block;
-    left: 81px;
+    left: 66px;
     vertical-align: top;
     white-space: pre-wrap;
 }

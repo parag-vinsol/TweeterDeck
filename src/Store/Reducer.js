@@ -23,23 +23,7 @@ const reducer  = (state = initialState, action) => {
     let tweet  = action.tweet;
     if(tweet.trim()) {
       let tweets = Methods.addNewTweet(tweet),
-      searchResultForParticularText = [],
-      searchResult = state.searchResult;
-      if(state.searchResult.length) {
-        let allTweets = JSON.parse(localStorage.getItem('tweets')),
-          searchTexts = [];
-        searchResult = []
-        let searchResults = state.searchResult;
-        searchResults.forEach(element => {
-          searchTexts.push(element['searchText'])
-        });
-        searchTexts.forEach(searchText => {
-          searchResultForParticularText = Methods.searchTweetFromText(searchText, allTweets);
-          let searchResultObj = Methods.saveSearchResultToObj(searchResultForParticularText, searchText, searchResult);
-          searchResult.push(searchResultObj)
-        })
-      }
-      
+      searchResult = Methods.checkSearchForNewTweet(state.searchResult);
       return{
         ...state,
         'tweets': tweets,
@@ -132,9 +116,8 @@ const reducer  = (state = initialState, action) => {
     }
   }
   if(action.type === ActionTypes.CLOSE_SEARCH_BLOCK) {
-    let searchResultList = state.searchResult,
-    index = Methods.indexBasedOnTweetList(action.id, searchResultList);
-    searchResultList.splice(index, 1); 
+    let searchResultList = state.searchResult;
+    searchResultList = Methods.removeItemFromList(action.id, searchResultList);
     return {
       ...state,
       searchResult: searchResultList,
@@ -160,13 +143,28 @@ const reducer  = (state = initialState, action) => {
   }
   if(action.type === ActionTypes.SEARCH_REPOSITORIES) {
     let repo = state.repositories;
-    repo.push(action.repositoryList);
+    let newId = Methods.getIdForRepo(repo);
+    let repositoryObj = {
+      id: newId,
+      repositoryList: action.repositoryList
+    }
+    repo.push(repositoryObj);
     return {
       ...state,
       repositories: repo,
       toggleChange: !state.toggleChange
     }
   }
+  if(action.type === ActionTypes.CLOSE_REPOSITORY_SEARCHBLOCK) {
+    let repositories = _(state.repositories).filter(function(item) {
+      return item.id !== action.id
+    })
+    return {
+      ...state,
+      repositories: repositories
+    }
+  }
   return state;  
 }
+
 export default reducer;

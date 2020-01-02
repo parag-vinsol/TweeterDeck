@@ -9,7 +9,7 @@ import ValidateEditTime from '../../Helper/ValidateEditTime';
 
 class SingleTweetBlock extends Component {
   URL_Tags_MentionsHandler = () => {
-    let tweet = this.props.tweetsToBeDisplayed;
+    let tweet = this.props.tweet["tweet-text"];
     let finalTweet = [];
     tweet.split(' ').forEach(element => {
       if(element.match(URL_REGEX)) {
@@ -33,7 +33,7 @@ class SingleTweetBlock extends Component {
   }
   render() {  
     let tweetToBeDisplayed = this.URL_Tags_MentionsHandler(),
-      visibilty = ValidateEditTime(this.props.postedTime);
+      visibilty = ValidateEditTime(this.props.tweet["postedTime"]);
     if(this.props.searchText) {
       tweetToBeDisplayed = HighlightMatchedText(this.props.searchText, tweetToBeDisplayed)
     }
@@ -42,10 +42,10 @@ class SingleTweetBlock extends Component {
         <div className="SingleTweetBlock">
           <p dangerouslySetInnerHTML={{__html: tweetToBeDisplayed}}></p>
           <div className="optionsContainer">
-            {this.props.isEdited ? <p className="Edited">edited</p> : ''}
-            <p>{this.props.postedTime}</p>
-            <button className={visibilty} style={{display:visibilty}} onClick={() => this.props.openEditModal(this.props.id)}><i className="fa fa-edit"></i></button>
-            <button className="btn" onClick={() => this.props.onDeletingTweet(this.props.id)}><i  className="fa fa-close"></i></button>
+            {this.props.tweet["isEdited"] ? <p className="Edited">edited</p> : ''}
+            <p>{this.props.tweet["postedTime"]}</p>
+            <button className={visibilty} style={{display:visibilty}} onClick={() => this.props.openEditModal(this.props.tweet["id"])}><i className="fa fa-edit"></i></button>
+            <button className="btn" onClick={() => this.props.onDeletingTweet(this.props.tweet["id"])}><i  className="fa fa-close"></i></button>
             
           </div>
         </div>

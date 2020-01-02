@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RepositoryList from './RepositoryList';
-import '../../Styles/SearchResult.css'
+import '../../Styles/RepoSearchResult.css'
 
 class Repositories extends Component {
   renderRepositoryList = () => {
@@ -13,7 +13,7 @@ class Repositories extends Component {
   }
   render() {
     return(
-      <div className="SearchResult">
+      <div className="RepoSearchResult">
         {this.renderRepositoryList()}
       </div>
     )

@@ -33,7 +33,7 @@ class DisplayBlock extends Component{
   mapToSingleTweet() {
     return (
       this.props.tweets.map((tweet, index) => (
-        <SingleTweetBlock key={index} tweetsToBeDisplayed={tweet['tweet-text']} searchText={null} tweetIndex={index} isEdited={tweet['isEdited']} postedTime={tweet['postedTime']} id={tweet['id']}/>
+        <SingleTweetBlock key={index}  searchText={null} tweetIndex={index} tweet={tweet}/>
      ))
     )
   }

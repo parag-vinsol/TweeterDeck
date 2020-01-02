@@ -13,6 +13,7 @@ export const CLOSE_SEARCH_BLOCK = "CLOSE_SEARCH_BLOCK";
 export const SEARCH_TAGS = "SEARCH_TAGS";
 export const CLOSE_USER_BLOCK = "CLOSE_USER_BLOCK";
 export const SEARCH_REPOSITORIES = "SEARCH_REPOSITORIES";
+export const CLOSE_REPOSITORY_SEARCHBLOCK = "CLOSE_REPOSITORY_SEARCHBLOCK";
 
 const storeUser = (user) => {
   return {
@@ -63,13 +64,20 @@ export const searchRepositories = (repositoryName) => {
             watchersCount: 0,
             forks: 0,
             openIssues: 0,
-            watchers: 0
+            watchers: 0,
+            URL: null,
+            updatedAt: null,
+            stargazersCount: 0
           }
           repository["id"] = element["id"];
           repository["watchersCount"] = element["watchers_count"];
           repository["forks"] = element["forks"];
           repository["openIssues"] = element["open_issues"];
           repository["watchers"] = element["watchers"];
+          repository["URL"] = element["html_url"];
+          repository["updatedAt"] = element["updated_at"]
+          repository["stargazersCount"] = element["stargazers_count"]
+
           repositoryList.push(repository);
         })
         dispatch(storeRepository(repositoryList))

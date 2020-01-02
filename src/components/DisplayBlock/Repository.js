@@ -8,7 +8,9 @@ class Repository extends Component {
         <p>Watcher's Count: {this.props.repository["watchersCount"]}</p>
         <p>forks: {this.props.repository["forks"]}</p>
         <p>OpenIssues: {this.props.repository["openIssues"]}</p>
-        <p>watchers: {this.props.repository["watchers"]}</p>
+        <p>URL: <a target="_blank" href={this.props.repository["URL"]}>{this.props.repository["URL"]}</a></p>
+        <p>Updated at: {this.props.repository["updatedAt"]}</p>
+        <p>Stargazers Count: {this.props.repository["stargazersCount"]}</p>
       </div>
     )
   }

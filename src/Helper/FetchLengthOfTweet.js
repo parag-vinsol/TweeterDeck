@@ -6,7 +6,7 @@ const fetchLengthOfTweet = (tweetValue) => {
       length = tweetValue.length,
       urlLengthToBeCounted = 0;
     let words = tweetValue.split(' ')
-    words.reverse().forEach(element => {
+    words.forEach(element => {
       if(element.match(URL_REGEX)) {
         urlLength = element.match(URL_REGEX).input.length;
         urlLengthToBeCounted = urlLengthToBeCounted + 8;

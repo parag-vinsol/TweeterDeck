@@ -9,7 +9,7 @@ import SingleTweetBlock from './SingleTweetBlock';
 class SearchResultDisplayblock extends Component {
   callSingleTweet = () => {
     return(this.props.searchResult['searchResult'].map((tweet, index) => {
-      return <SingleTweetBlock key={index} searchText={this.props.searchResult['searchText']} tweetsToBeDisplayed={tweet['tweet-text']} tweetIndex={index} postedTime={tweet['postedTime']} isEdited={tweet['isEdited']} id={tweet['id']} />
+      return <SingleTweetBlock key={index} searchText={this.props.searchResult['searchText']} tweet={tweet} />
     }))
   }
 

@@ -1,13 +1,10 @@
+import _ from 'underscore';
 
-export const indexBasedOnTweetList = (id, tweetList) => {
-  let resultIndex = null;
-  tweetList.map((tweet, index) => {
-    if(tweet['id'] === id) {
-      resultIndex = index;
-      return resultIndex;
-    }
+export const removeItemFromList = (id, list) => {
+  let result = _(list).filter(function(item) {
+    return item.id !== id; 
   });
-  return resultIndex;
+  return result;
 }
   
 export const addNewTweet = (tweet) => {
@@ -26,6 +23,26 @@ export const addNewTweet = (tweet) => {
   return tweets;
 }
 
+export const checkSearchForNewTweet = (searchResult) => {
+  let searchResultForParticularText = [];
+  let searchResultOutput = []
+  if(searchResult.length) {
+    let allTweets = JSON.parse(localStorage.getItem('tweets')),
+      searchTexts = [];
+    let searchResults = searchResult;
+    searchResults.forEach(element => {
+      searchTexts.push(element['searchText'])
+    });
+    searchTexts.forEach(searchText => {
+      searchResultForParticularText = searchTweetFromText(searchText, allTweets);
+      let searchResultObj = saveSearchResultToObj(searchResultForParticularText, searchText, searchResult);
+      searchResultOutput.push(searchResultObj)
+    });
+  }
+  
+  return searchResultOutput;
+}
+
 export const getIdForTheTweet = (tweets) => {
   if(tweets.length === 0) {
     return 1;
@@ -42,30 +59,26 @@ export const getIdForTheTweet = (tweets) => {
 }
   
 export const deleteFromDisplay = (id, allTweets) => {
-  let indexToBeDeleted = indexBasedOnTweetList(id, allTweets),
-    tweets = JSON.parse(localStorage.getItem('tweets'));
-  tweets.splice(indexToBeDeleted, 1);
+  let tweets = JSON.parse(localStorage.getItem('tweets'));
+  tweets = removeItemFromList(id, tweets)
   return tweets;
 }
 
 export const deleteFromSearchResult = (searchResult, id) => {
   let resultingSearchTweet = [];
   if(searchResult.length) {
-    
-    let indexOfSearchResult = null
     searchResult.forEach(element => {
-      indexOfSearchResult = indexBasedOnTweetList(id, element['searchResult']);
+      element['searchResult'] = removeItemFromList(id, element['searchResult']);
       let searchTweetObj = {
         id: null,
         searchResult: null,
         searchText: ''
       }
-      element['searchResult'].splice(indexOfSearchResult, 1);
       searchTweetObj['id'] = element['id'];
       searchTweetObj['searchResult'] = element['searchResult'];
       searchTweetObj['searchText'] = element['searchText'];
       resultingSearchTweet.push(searchTweetObj)
-      
+      console.log(resultingSearchTweet)
     });
     
   }
@@ -118,7 +131,7 @@ export const searchTweetFromText = (searchText, tweets) => {
   });
   searchResult.map(({ ref, score }) => {
     const doc = window.elasticDBIndex.documentStore.getDoc(ref);
-    searchResultForParticularText.unshift(doc);
+    searchResultForParticularText.push(doc);
   });
   return searchResultForParticularText;
 }
@@ -141,5 +154,13 @@ export const getPreviousIdOfSearchResults = (searchResult) => {
     return searchResult[searchResult.length-1]['id'];
   }
   return -1
+}
+
+export const getIdForRepo = (repo) => {
+  let id = -1;
+  repo.forEach(element => {
+    id = element["id"];
+  })
+  return id + 1;
 }
 
