@@ -1,7 +1,6 @@
-import { URL_REGEX, TAGS_REGEX, MENTION_TAGS, REPOSITORY_TAGS } from './Constants'
+import { URL_REGEX, TAGS_REGEX, MENTION_TAGS, REPOSITORY_TAGS, MAX_LENGTH_OF_TWEET, URL_LENGTH } from './Constants'
 
 const fetchLengthOfTweet = (tweetValue) => {
-    const TotalNumberOfLettersAllowed = 160;
     let urlLength = 0,
       length = tweetValue.length,
       urlLengthToBeCounted = 0;
@@ -9,7 +8,7 @@ const fetchLengthOfTweet = (tweetValue) => {
     words.forEach(element => {
       if(element.match(URL_REGEX)) {
         urlLength = element.match(URL_REGEX).input.length;
-        urlLengthToBeCounted = urlLengthToBeCounted + 8;
+        urlLengthToBeCounted = urlLengthToBeCounted + URL_LENGTH;
         length = length - urlLength;
       }
       else if(element.match(TAGS_REGEX)) {
@@ -26,6 +25,6 @@ const fetchLengthOfTweet = (tweetValue) => {
       }
 
     });
-    return TotalNumberOfLettersAllowed - length - urlLengthToBeCounted;
+    return MAX_LENGTH_OF_TWEET - length - urlLengthToBeCounted;
 }
 export default fetchLengthOfTweet;

@@ -17,7 +17,7 @@ export const addNewTweet = (tweet) => {
     "tweet-text": tweet,
     "isEdited": false,
     "postedTime": date.toLocaleString()
-  }
+  }     
   window.elasticDBIndex.addDoc(doc);
   localStorage.setItem('tweets', JSON.stringify(tweets));
   return tweets;

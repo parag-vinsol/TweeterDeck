@@ -14,6 +14,8 @@ export const SEARCH_TAGS = "SEARCH_TAGS";
 export const CLOSE_USER_BLOCK = "CLOSE_USER_BLOCK";
 export const SEARCH_REPOSITORIES = "SEARCH_REPOSITORIES";
 export const CLOSE_REPOSITORY_SEARCHBLOCK = "CLOSE_REPOSITORY_SEARCHBLOCK";
+export const MAX_LENGTH_OF_TWEET = 160;
+export const URL_LENGTH = 8;
 
 const storeUser = (user) => {
   return {
