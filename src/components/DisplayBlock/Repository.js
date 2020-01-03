@@ -3,14 +3,15 @@ import '../../Styles/SingleTweetBlock.css'
 
 class Repository extends Component {
   render() {
+    let {watchers_count, forks, open_issues, html_url, updated_at, stargazers_count} = this.props.repository
     return(
       <div className="SingleTweetBlock">
-        <p>Watcher's Count: {this.props.repository["watchersCount"]}</p>
-        <p>forks: {this.props.repository["forks"]}</p>
-        <p>OpenIssues: {this.props.repository["openIssues"]}</p>
-        <p>URL: <a target="_blank" href={this.props.repository["URL"]}>{this.props.repository["URL"]}</a></p>
-        <p>Updated at: {this.props.repository["updatedAt"]}</p>
-        <p>Stargazers Count: {this.props.repository["stargazersCount"]}</p>
+        <p>Watcher's Count: {watchers_count}</p>
+        <p>forks: {forks}</p>
+        <p>OpenIssues: {open_issues}</p>
+        <p>URL: <a target="_blank" href={html_url}>{this.props.repository["html_url"]}</a></p>
+        <p>Updated at: {updated_at}</p>
+        <p>Stargazers Count: {stargazers_count}</p>
       </div>
     )
   }

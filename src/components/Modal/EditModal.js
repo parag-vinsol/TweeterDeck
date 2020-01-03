@@ -25,7 +25,7 @@ class EditModal extends Component {
         <button className="CloseBtn" onClick={this.props.onCancelEdit}><i  className="fa fa-close"></i></button>
         <h2>Edit Tweet</h2>
         <textarea value={this.state.tweet} onChange={this.onChangeEditHandler}></textarea>
-        <button onClick={() => this.props.onEditing(this.state.tweet, this.props.id)}>Edit</button>
+        <button onClick={this.props.onEditing.bind(null, this.state.tweet, this.props.id)}>Edit</button>
       </div>        
     )
   }

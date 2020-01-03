@@ -10,7 +10,7 @@ class SearchModal extends Component {
   }
   
   searchTextSetter = (event) => {
-    this.setState({search: event.target.value.trim()})
+    this.setState({search: event.target.value})
   }
   componentDidMount() {
     this.inputRef.current.focus();

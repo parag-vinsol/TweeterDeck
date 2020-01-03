@@ -1,9 +1,9 @@
+import { MIN_MINS_REQ_TO_EDIT } from './Constants'
 const validateEditTime = (postedTime) => {
     let postedDateTime = new Date(postedTime),
       presentDateTime = new Date(),
-      minMinutesReq = 10,
       visibilty = "btnEdit";
-    if(((presentDateTime - postedDateTime)/(1000 * 60)) < minMinutesReq) {
+    if(((presentDateTime - postedDateTime)/(1000 * 60)) < MIN_MINS_REQ_TO_EDIT) {
       visibilty =  `${visibilty} hiddenVisibilty`;
     }
     return visibilty

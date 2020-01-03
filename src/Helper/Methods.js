@@ -1,61 +1,70 @@
 import _ from 'underscore';
 
 export const removeItemFromList = (id, list) => {
-  let result = _(list).filter(function(item) {
-    return item.id !== id; 
-  });
-  return result;
+  return _.reject(list, list=> list.id == id);
+}
+export const assignId = (list) => {
+  if(list.length === 0) {
+    return 1;
+  } 
+  else {
+    let id = null;
+    let reversedList = _.sortBy(list, 'id').reverse();
+    return reversedList[0]["id"];
+  }
 }
   
 export const addNewTweet = (tweet) => {
-  let tweets = JSON.parse(localStorage.getItem('tweets')),
-    id = getIdForTheTweet(tweets),
+  let tweets = JSON.parse(localStorage.getItem('tweets'));
+  let id = assignId(tweets),
     date = new Date();
-  tweets.unshift({'tweet-text': tweet, isEdited: false, id: id, postedTime: date.toLocaleString()});
+    let newTweetObj = setNewTweetObject(tweet, id, date);
+  
+  setNewTweetObjectInElasticDBIndex(tweet, id, date);
+  
+  return newTweetObj;
+}
+
+export const storeNewTweetInLocal = (tweetObj) => {
+  let tweets = JSON.parse(localStorage.getItem('tweets'));
+  tweets.unshift(tweetObj);
+  localStorage.setItem('tweets', JSON.stringify(tweets));
+  return tweets;
+}
+
+const setNewTweetObject = (tweet, id, date) => {
+  let tweetObj = {
+    'tweet-text': tweet, 
+    isEdited: false, 
+    id: id + 1,
+    postedTime: date.toLocaleString()
+  }
+  return tweetObj;
+}
+
+const setNewTweetObjectInElasticDBIndex = (tweet, id, date) => {
   let doc = {
-    "id": id,
+    "id": id +1,
     "tweet-text": tweet,
     "isEdited": false,
     "postedTime": date.toLocaleString()
   }     
   window.elasticDBIndex.addDoc(doc);
-  localStorage.setItem('tweets', JSON.stringify(tweets));
-  return tweets;
 }
 
-export const checkSearchForNewTweet = (searchResult) => {
+export const checkSearchForNewTweet = (searchResult, newTweetObj) => {
   let searchResultForParticularText = [];
-  let searchResultOutput = []
-  if(searchResult.length) {
-    let allTweets = JSON.parse(localStorage.getItem('tweets')),
-      searchTexts = [];
-    let searchResults = searchResult;
-    searchResults.forEach(element => {
-      searchTexts.push(element['searchText'])
-    });
-    searchTexts.forEach(searchText => {
-      searchResultForParticularText = searchTweetFromText(searchText, allTweets);
-      let searchResultObj = saveSearchResultToObj(searchResultForParticularText, searchText, searchResult);
-      searchResultOutput.push(searchResultObj)
-    });
-  }
-  
+  let searchResultOutput = [];
+  let allTweets = JSON.parse(localStorage.getItem('tweets')),
+    searchTexts = [];
+  let searchResults = searchResult;
+  searchTexts = _.map(searchResults, function(searchResult){return searchResult.searchText});
+  searchTexts.forEach(searchText => {
+    searchResultForParticularText = searchTweetFromText(searchText);
+    let searchResultObj = saveSearchResultToObj(searchResultForParticularText, searchText, searchResultOutput);
+    searchResultOutput.push(searchResultObj)
+  });
   return searchResultOutput;
-}
-
-export const getIdForTheTweet = (tweets) => {
-  if(tweets.length === 0) {
-    return 1;
-  } 
-  else {
-    let id = null;
-    tweets.forEach(element => {
-      if(id <= element["id"]) {
-        id = element["id"]
-      }
-    });
-    return id + 1;
-  }
 }
   
 export const deleteFromDisplay = (id, allTweets) => {
@@ -69,31 +78,18 @@ export const deleteFromSearchResult = (searchResult, id) => {
   if(searchResult.length) {
     searchResult.forEach(element => {
       element['searchResult'] = removeItemFromList(id, element['searchResult']);
-      let searchTweetObj = {
-        id: null,
-        searchResult: null,
-        searchText: ''
-      }
-      searchTweetObj['id'] = element['id'];
-      searchTweetObj['searchResult'] = element['searchResult'];
-      searchTweetObj['searchText'] = element['searchText'];
-      resultingSearchTweet.push(searchTweetObj)
-      console.log(resultingSearchTweet)
+      window.elasticDBIndex.removeDocByRef(id, element['searchResult'])
+      resultingSearchTweet = searchResult
     });
-    
   }
   return resultingSearchTweet;
-  
 }
   
+
+
 export const getTweetTextById = (id, allTweets) => {
-  let tweetText = null;
-  allTweets.forEach(element => {
-    if(element["id"] == id) {
-      tweetText = (element["tweet-text"])
-    }
-  });
-  return tweetText
+  let tweetObj = _.find(allTweets, function(tweets) {return tweets["id"] == id});
+  return tweetObj["tweet-text"];
 }
   
 export const editTweet = (id, tweetList, editText) => {
@@ -107,6 +103,7 @@ export const editTweet = (id, tweetList, editText) => {
 }
   
 export const editTweetForSearchResult = (id, tweetList, editText) => {
+  let tweetListouput = [];
   tweetList.forEach(element => {
     element['searchResult'].forEach(searchElement => {
       if(searchElement['id'] == id) {
@@ -115,19 +112,21 @@ export const editTweetForSearchResult = (id, tweetList, editText) => {
       }
     })
     
+    let searchResultForParticularText = searchTweetFromText(element["searchText"]);
+    let tweetObj = saveSearchResultToObj(searchResultForParticularText, element["searchText"], tweetList);
+    tweetListouput.push(tweetObj)
   });
-  return tweetList;
+  return tweetListouput;
 }
 
-export const searchTweetFromText = (searchText, tweets) => {
+export const searchTweetFromText = (searchText) => {
   let searchResultForParticularText = []; 
   let searchResult = window.elasticDBIndex.search(searchText, {
     fields: {
         'tweet-text': {boost: 1}
     },
     bool: "OR",
-    expand: true,
-    highlight: true
+    expand: true
   });
   searchResult.map(({ ref, score }) => {
     const doc = window.elasticDBIndex.documentStore.getDoc(ref);
@@ -142,25 +141,14 @@ export const saveSearchResultToObj = (searchResultForParticularText, searchText,
     searchResult: null,
     searchText: ""
   };
-  let prevId = getPreviousIdOfSearchResults(searchResult);
+  let prevId = assignId(searchResult);
   searchResultObj['id'] = prevId + 1;
   searchResultObj['searchResult'] = searchResultForParticularText;
   searchResultObj['searchText'] = searchText;
   return searchResultObj;
 }
   
-export const getPreviousIdOfSearchResults = (searchResult) => {
-  if(searchResult.length) {
-    return searchResult[searchResult.length-1]['id'];
-  }
-  return -1
-}
 
-export const getIdForRepo = (repo) => {
-  let id = -1;
-  repo.forEach(element => {
-    id = element["id"];
-  })
-  return id + 1;
-}
+
+
 

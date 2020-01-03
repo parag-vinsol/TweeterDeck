@@ -16,7 +16,7 @@ class RepositoryList extends Component {
   render() {
     return (
       <div className="SearchResultDisplayBlock">
-        <button className="CloseBtn" onClick={() => this.props.closeRepositoryBlock(this.props.repositoryList['id'])}><i className="fa fa-close"></i></button> 
+        <button className="CloseBtn" onClick={this.props.closeRepositoryBlock.bind(null, this.props.repositoryList['id'])}><i className="fa fa-close"></i></button> 
         {this.renderRepository()}
       </div>
     )

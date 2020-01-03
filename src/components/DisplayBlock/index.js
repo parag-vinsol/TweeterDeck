@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import SingleTweetBlock from './SingleTweetBlock';
-import {SEARCH_TWEET, searchTags, searchRepositories} from '../../Helper/Constants';
+import { SEARCH_TWEET } from '../../Helper/Constants';
+import { searchTags, searchRepositories } from '../../Store/Action'
 import '../../Styles/DisplayBlock.css';
 
 

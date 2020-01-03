@@ -7,7 +7,7 @@ import SingleTweetBlock from './SingleTweetBlock';
 
 
 class SearchResultDisplayblock extends Component {
-  callSingleTweet = () => {
+  renderTweet = () => {
     return(this.props.searchResult['searchResult'].map((tweet, index) => {
       return <SingleTweetBlock key={index} searchText={this.props.searchResult['searchText']} tweet={tweet} />
     }))
@@ -22,7 +22,7 @@ class SearchResultDisplayblock extends Component {
           <input type="input" disabled value={this.props.searchResult['searchText']}/>
           <button className="CloseBtn" onClick={() => this.props.closeSearchBlock(this.props.searchResult['id'])}><i className="fa fa-close"></i></button> 
         </div>
-        {this.callSingleTweet()}
+        {this.renderTweet()}
       </div>
     )
   }

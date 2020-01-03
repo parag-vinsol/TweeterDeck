@@ -31,21 +31,23 @@ class SingleTweetBlock extends Component {
     let newTweet = finalTweet.join(' ');
     return newTweet;
   }
-  render() {  
+  render() {
+    let {id, isEdited, postedTime} = this.props.tweet;  
     let tweetToBeDisplayed = this.URL_Tags_MentionsHandler(),
-      visibilty = ValidateEditTime(this.props.tweet["postedTime"]);
+      visibilty = ValidateEditTime(postedTime);
     if(this.props.searchText) {
       tweetToBeDisplayed = HighlightMatchedText(this.props.searchText, tweetToBeDisplayed)
     }
+
     return(
       <Fragment>
         <div className="SingleTweetBlock">
           <p dangerouslySetInnerHTML={{__html: tweetToBeDisplayed}}></p>
           <div className="optionsContainer">
-            {this.props.tweet["isEdited"] ? <p className="Edited">edited</p> : ''}
-            <p>{this.props.tweet["postedTime"]}</p>
-            <button className={visibilty} style={{display:visibilty}} onClick={() => this.props.openEditModal(this.props.tweet["id"])}><i className="fa fa-edit"></i></button>
-            <button className="btn" onClick={() => this.props.onDeletingTweet(this.props.tweet["id"])}><i  className="fa fa-close"></i></button>
+            {isEdited ? <p className="Edited">edited</p> : ''}
+            <p>{postedTime}</p>
+            <button className={visibilty} style={{display:visibilty}} onClick={this.props.openEditModal.bind(null, id)}><i className="fa fa-edit"></i></button>
+            <button className="btn" onClick={this.props.onDeletingTweet.bind(null, id)}><i  className="fa fa-close"></i></button>
             
           </div>
         </div>

@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import SearchResultDisplayblock from './SearchResultDisplayBlock';
 import '../../Styles/SearchResult.css';
-import { SEARCH_TWEET, searchTags, searchRepositories } from '../../Helper/Constants'
+import { SEARCH_TWEET } from '../../Helper/Constants';
+import { searchTags, searchRepositories } from '../../Store/Action';
 
 class SearchResults extends Component {
   componentDidMount() {
@@ -29,11 +30,11 @@ class SearchResults extends Component {
   searchRepository = (event) => {
     this.props.searchRepositories(event.target.text)
   }
-  callSearchResultDisplayblockOneByOne = (searchResultList) => {
+  renderSearchResultDisplayblock = (searchResultList) => {
     return (
       searchResultList.map((search, index) => {
         if(search['searchResult'].length) {
-          return <SearchResultDisplayblock key={index} searchResult={search} changesDone={this.props.changesDone}/>
+          return <SearchResultDisplayblock key={index} searchResult={search} searchResultSize= {search["searchResult"].length} changesDone={this.props.changesDone}/>
         }
       })
     )
@@ -42,7 +43,7 @@ class SearchResults extends Component {
   render() {
     return(
       <div className="SearchResult">
-        {this.callSearchResultDisplayblockOneByOne(this.props.searchResult)}
+        {this.renderSearchResultDisplayblock(this.props.searchResult)}
       </div>
       
       
@@ -52,7 +53,7 @@ class SearchResults extends Component {
 
 const mapStateToProps = state => {
   return {
-    searchResult: state.searchResult,
+    searchResult: state.searchResult.map(searchResult => searchResult),
     searchResultLength: state.searchResult.length,
     changesDone: state.toggleChange
   } 

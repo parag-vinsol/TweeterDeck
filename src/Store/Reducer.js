@@ -22,8 +22,12 @@ const reducer  = (state = initialState, action) => {
   if(action.type === ActionTypes.POST) {
     let tweet  = action.tweet;
     if(tweet.trim()) {
-      let tweets = Methods.addNewTweet(tweet),
-      searchResult = Methods.checkSearchForNewTweet(state.searchResult);
+      let tweetObj = Methods.addNewTweet(tweet);
+      let tweets = Methods.storeNewTweetInLocal(tweetObj);
+      let searchResult = state.searchResult;
+      if(searchResult.length){
+        searchResult = Methods.checkSearchForNewTweet(state.searchResult, tweetObj);
+      }
       return{
         ...state,
         'tweets': tweets,
@@ -104,7 +108,7 @@ const reducer  = (state = initialState, action) => {
       searchResult = state.searchResult,
       searchText = action.searchText;
     if(searchText) {
-      searchResultForParticularText = Methods.searchTweetFromText(searchText, state.tweets);
+      searchResultForParticularText = Methods.searchTweetFromText(searchText);
       let searchResultObj = Methods.saveSearchResultToObj(searchResultForParticularText, searchText, searchResult);
       searchResult.push(searchResultObj)
     } 
@@ -143,9 +147,9 @@ const reducer  = (state = initialState, action) => {
   }
   if(action.type === ActionTypes.SEARCH_REPOSITORIES) {
     let repo = state.repositories;
-    let newId = Methods.getIdForRepo(repo);
+    let newId = Methods.assignId(repo);
     let repositoryObj = {
-      id: newId,
+      id: newId + 1,
       repositoryList: action.repositoryList
     }
     repo.push(repositoryObj);

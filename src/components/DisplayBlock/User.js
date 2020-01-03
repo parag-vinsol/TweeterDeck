@@ -6,14 +6,15 @@ import '../../Styles/SearchResultDisplayBlock.css'
 
 class User extends Component {
   render() {
+    let {id, avatar_url, name, company, followers, following} = this.props.user;
     return(
       <div className="SearchResultDisplayBlock">
-        <button className="CloseBtn" onClick={() => this.props.closeUserBlock(this.props.user['id'])}><i className="fa fa-close"></i></button> 
-        <img className="image-width" src={this.props.user["picURL"]}></img>
-        <p>Name: {this.props.user["name"]}</p>
-        <p>Company Name: <a target="_blank" href={this.props.user["company"]}>{this.props.user["company"]}</a></p>
-        <p>Followers: {this.props.user["followers"]}</p>
-        <p>Following: {this.props.user["following"]}</p>
+        <button className="CloseBtn" onClick={this.props.closeUserBlock.bind(null, id)}><i className="fa fa-close"></i></button> 
+        <img className="image-width" src={avatar_url}></img>
+        <p>Name: {name}</p>
+        <p>Company Name: <a target="_blank" rel="noopener noreferrer" href={company}>{company}</a></p>
+        <p>Followers: {followers}</p>
+        <p>Following: {following}</p>
       </div>
     )
   }

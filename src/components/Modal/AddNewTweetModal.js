@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 
 import '../../Styles/AddNewTweetModal.css';
 import FetchLengthOfTweet from '../../Helper/FetchLengthOfTweet'
-import { POST } from '../../Helper/Constants'
+import { POST, MAX_LENGTH_OF_TWEET } from '../../Helper/Constants'
 
 class AddNewTweetModal extends Component {
   constructor() {
     super();     
     this.state = {
         tweet:'',
-        counter: 160
+        counter: MAX_LENGTH_OF_TWEET
     }
   }
     
@@ -25,12 +25,12 @@ class AddNewTweetModal extends Component {
   render() {
     return(
       <Fragment>
-      {this.props.isAddNewTweetModalOpen ? null : (<div className="AddNewTweetModal">
+      <div className="AddNewTweetModal">
         <h2>Tweet</h2>
         <textarea onChange={this.onWritingTweetHandler} placeholder="What's happening?" value={this.state.tweet}></textarea>
-        <button disabled={this.state.counter < 0 } onClick={() => this.props.onPostingTweet(this.state.tweet)}>Post Tweet</button>
+        <button disabled={this.state.counter < 0 } onClick={this.props.onPostingTweet.bind(null, this.state.tweet)}>Post Tweet</button>
         <p>{this.state.counter}</p>
-      </div>)}
+      </div>
       </Fragment>
     )
   }
