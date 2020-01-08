@@ -25,9 +25,9 @@ class ActionBlock extends Component {
         {this.props.isNewTweetModalOpen && <AddNewTweetModal />}
         {this.props.isEditModalOpen && <EditModal />  }
         {this.props.isSearchModalOpen && <SearchModal />}
-        {this.props.searchResult.length && <SearchResult />}
-        {this.props.users.length && <UserInfo />}
-        {this.props.repositories.length && <Repositories /> }
+        {this.props.searchResult && <SearchResult />}
+        {this.props.users && <UserInfo />}
+        {this.props.repositories && <Repositories /> }
       </Fragment>
     )
   }

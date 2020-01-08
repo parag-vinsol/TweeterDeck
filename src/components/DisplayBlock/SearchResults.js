@@ -29,12 +29,17 @@ class SearchResults extends Component {
   componentDidUpdate = () => {
     this.initialiseClickHandler();
   }
+  
   searchTags = (event) => {
+    console.log(event.target.text, '[is the set before handler]');
     this.props.searchTweetHandler(event.target.text)
   }
+
   searchMentions = (event) => {
+    
     this.props.searchTags(event.target.text)
   }
+  
   searchRepository = (event) => {
     this.props.searchRepositories(event.target.text)
   }
