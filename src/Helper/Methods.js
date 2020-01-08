@@ -19,9 +19,7 @@ export const addNewTweet = (tweet) => {
   let id = assignId(tweets),
     date = new Date();
     let newTweetObj = setNewTweetObject(tweet, id, date);
-  
   setNewTweetObjectInElasticDBIndex(tweet, id, date);
-  
   return newTweetObj;
 }
 
@@ -53,12 +51,11 @@ const setNewTweetObjectInElasticDBIndex = (tweet, id, date) => {
 }
 
 export const checkSearchForNewTweet = (searchResult, newTweetObj) => {
-  let searchResultForParticularText = [];
-  let searchResultOutput = [];
-  let allTweets = JSON.parse(localStorage.getItem('tweets')),
-    searchTexts = [];
-  let searchResults = searchResult;
-  searchTexts = _.map(searchResults, function(searchResult){return searchResult.searchText});
+  let searchResultForParticularText = [],
+    searchResultOutput = [],
+    searchTexts = [],
+    searchResults = searchResult;
+  searchTexts = _.map(searchResults, function(searchResult){ return searchResult.searchText });
   searchTexts.forEach(searchText => {
     searchResultForParticularText = searchTweetFromText(searchText);
     let searchResultObj = saveSearchResultToObj(searchResultForParticularText, searchText, searchResultOutput);
@@ -93,25 +90,27 @@ export const getTweetTextById = (id, allTweets) => {
 }
   
 export const editTweet = (id, tweetList, editText) => {
+  let tweetTime = null;
   tweetList.forEach(element => {
     if(element['id'] == id) {
       element['tweet-text'] = editText;
       element['isEdited'] = true;
+      tweetTime = element['postedTime']
     }
   });
+  let doc = {
+    "id": id,
+    "tweet-text": editText,
+    "isEdited": true,
+    "postedTime": tweetTime
+  }
+  window.elasticDBIndex.updateDoc(doc);
   return tweetList;
 }
   
-export const editTweetForSearchResult = (id, tweetList, editText) => {
+export const editTweetForSearchResult = (tweetList) => {
   let tweetListouput = [];
   tweetList.forEach(element => {
-    element['searchResult'].forEach(searchElement => {
-      if(searchElement['id'] == id) {
-        searchElement['tweet-text'] = editText;
-        searchElement['isEdited'] = true;
-      }
-    })
-    
     let searchResultForParticularText = searchTweetFromText(element["searchText"]);
     let tweetObj = saveSearchResultToObj(searchResultForParticularText, element["searchText"], tweetList);
     tweetListouput.push(tweetObj)
@@ -123,7 +122,7 @@ export const searchTweetFromText = (searchText) => {
   let searchResultForParticularText = []; 
   let searchResult = window.elasticDBIndex.search(searchText, {
     fields: {
-        'tweet-text': {boost: 1}
+      'tweet-text': {boost: 1}
     },
     bool: "OR",
     expand: true

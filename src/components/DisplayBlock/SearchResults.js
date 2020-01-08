@@ -8,9 +8,9 @@ import { searchTags, searchRepositories } from '../../Store/Action';
 
 class SearchResults extends Component {
   componentDidMount() {
-    this.tags = document.querySelectorAll('[data-tags]');
-    this.mentions = document.querySelectorAll('[data-mentions]');
-    this.repositories = document.querySelectorAll('[data-repository]')
+    this.tags = document.querySelectorAll('.SearchResultDisplayBlock [data-tags]');
+    this.mentions = document.querySelectorAll('.SearchResultDisplayBlock [data-mentions]');
+    this.repositories = document.querySelectorAll('.SearchResultDisplayBlock [data-repository]');
     this.tags.forEach(element => {
       element.addEventListener("click", this.searchTags)
     });
@@ -34,7 +34,7 @@ class SearchResults extends Component {
     return (
       searchResultList.map((search, index) => {
         if(search['searchResult'].length) {
-          return <SearchResultDisplayblock key={index} searchResult={search} searchResultSize= {search["searchResult"].length} changesDone={this.props.changesDone}/>
+          return <SearchResultDisplayblock key={index} searchResult={search} />
         }
       })
     )
@@ -45,16 +45,13 @@ class SearchResults extends Component {
       <div className="SearchResult">
         {this.renderSearchResultDisplayblock(this.props.searchResult)}
       </div>
-      
-      
     )
   }
 }
 
 const mapStateToProps = state => {
   return {
-    searchResult: state.searchResult.map(searchResult => searchResult),
-    searchResultLength: state.searchResult.length,
+    searchResult: state.searchResult,
     changesDone: state.toggleChange
   } 
 }

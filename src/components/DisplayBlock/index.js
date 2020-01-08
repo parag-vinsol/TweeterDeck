@@ -26,7 +26,7 @@ class DisplayBlock extends Component{
     this.props.searchTweetHandler(event.target.text)
   }
   searchMentions = (event) => {
-    this.props.searchTags(event.target.text)
+    this.props.searchTag(event.target.text)
   }
   searchRepository = (event) => {
     this.props.searchRepositories(event.target.text)
@@ -57,7 +57,7 @@ const mapStateToProps = state =>{
 const mapDispatchToProps = dispatch => {
   return{
     searchTweetHandler: (searchText) => dispatch({type: SEARCH_TWEET, searchText}),
-    searchTags: (searchTag) => dispatch(searchTags(searchTag)),
+    searchTag: (searchTag) => dispatch(searchTags(searchTag)),
     searchRepositories: (repositoryName) => dispatch(searchRepositories(repositoryName))
   }
 }

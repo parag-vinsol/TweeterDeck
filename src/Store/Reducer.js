@@ -77,7 +77,7 @@ const reducer  = (state = initialState, action) => {
     localStorage.setItem("tweets", JSON.stringify(editedTweets));
     let change = null;
     if(searchResultList.length) {
-      searchResultList = Methods.editTweetForSearchResult(action.id, state.searchResult, action.editText);
+      searchResultList = Methods.editTweetForSearchResult(state.searchResult);
       change = !state.toggleChange
      }
     return {
