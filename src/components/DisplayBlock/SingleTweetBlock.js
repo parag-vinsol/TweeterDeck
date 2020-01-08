@@ -16,13 +16,13 @@ class SingleTweetBlock extends Component {
         finalTweet.push(`<a target='_blank' href='//${element.match(URL_REGEX)[0]}'>${element.match(URL_REGEX)[0]}<a>`);
       }
       else if(element.match(TAGS_REGEX)) {
-        finalTweet.push(`<a data-tags=tags class="hover">${element.match(TAGS_REGEX)[0]}</a>`);
+        finalTweet.push(`<a data-tags=${this.props.dataAttribute} class="hover">${element.match(TAGS_REGEX)[0]}</a>`);
       }
       else if(element.match(MENTION_TAGS)) {
-        finalTweet.push(`<a data-mentions=mentions class="hover">${element.match(MENTION_TAGS)[0]}</a>`);
+        finalTweet.push(`<a data-mentions=${this.props.dataAttribute} class="hover">${element.match(MENTION_TAGS)[0]}</a>`);
       }
       else if(element.match(REPOSITORY_TAGS)) {
-        finalTweet.push(`<a data-repository=repository class="hover">${element.match(REPOSITORY_TAGS)[0]}</a>`);
+        finalTweet.push(`<a data-repository=${this.props.dataAttribute} class="hover">${element.match(REPOSITORY_TAGS)[0]}</a>`);
       }
       else {
         finalTweet.push(element);

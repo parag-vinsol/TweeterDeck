@@ -9,9 +9,9 @@ import '../../Styles/DisplayBlock.css';
 
 class DisplayBlock extends Component{
   componentDidMount() {
-    this.tags = document.querySelectorAll('[data-tags]');
-    this.mentions = document.querySelectorAll('[data-mentions]');
-    this.repositories = document.querySelectorAll('[data-repository]')
+    this.tags = document.querySelectorAll('[data-tags = "display"]');
+    this.mentions = document.querySelectorAll('[data-mentions = "display"]');
+    this.repositories = document.querySelectorAll('[data-repository = "display"]')
     this.tags.forEach(element => {
       element.addEventListener("click", this.searchTags)
     });
@@ -34,7 +34,7 @@ class DisplayBlock extends Component{
   mapToSingleTweet() {
     return (
       this.props.tweets.map((tweet, index) => (
-        <SingleTweetBlock key={index}  searchText={null} tweetIndex={index} tweet={tweet}/>
+        <SingleTweetBlock key={index}  searchText={null} tweetIndex={index} tweet={tweet} dataAttribute="display"/>
      ))
     )
   }
