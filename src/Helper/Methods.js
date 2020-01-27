@@ -4,7 +4,7 @@ export const removeItemFromList = (id, list) => {
   return _.reject(list, list=> list.id == id);
 }
 export const assignId = (list) => {
-  if(list.length === 0) {
+  if(list == null) {
     return 1;
   } 
   else {
