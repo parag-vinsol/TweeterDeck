@@ -4,12 +4,13 @@ export const removeItemFromList = (id, list) => {
   return _.reject(list, list=> list.id == id);
 }
 export const assignId = (list) => {
-  if(list == null) {
+  if(list == null || !list.length) {
     return 1;
   } 
   else {
     let id = null;
     let reversedList = _.sortBy(list, 'id').reverse();
+    console.log(reversedList)
     return reversedList[0]["id"];
   }
 }
