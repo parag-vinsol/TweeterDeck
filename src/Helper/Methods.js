@@ -13,7 +13,7 @@ export const assignId = (list) => {
     return reversedList[0]["id"];
   }
 }
-  
+   
 export const addNewTweet = (tweet) => {
   let tweets = JSON.parse(localStorage.getItem('tweets'));
   let id = assignId(tweets),
@@ -29,6 +29,7 @@ export const storeNewTweetInLocal = (tweetObj) => {
     tweets.unshift(tweetObj);
   }
   else{
+    tweets = [];
     tweets.push(tweetObj);
   }
   
