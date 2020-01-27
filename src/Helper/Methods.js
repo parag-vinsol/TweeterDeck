@@ -25,7 +25,13 @@ export const addNewTweet = (tweet) => {
 
 export const storeNewTweetInLocal = (tweetObj) => {
   let tweets = JSON.parse(localStorage.getItem('tweets'));
-  tweets.unshift(tweetObj);
+  if(tweets){
+    tweets.unshift(tweetObj);
+  }
+  else{
+    tweets.push(tweetObj);
+  }
+  
   localStorage.setItem('tweets', JSON.stringify(tweets));
   return tweets;
 }
