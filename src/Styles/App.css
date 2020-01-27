@@ -1,0 +1,8 @@
+.App {
+  white-space: nowrap;
+}
+
+.highlighted-text {
+  background-color: yellowgreen;
+  pointer-events: none;
+}

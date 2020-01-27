@@ -1,0 +1,15 @@
+.DisplayBlock {
+  position: relative;
+  display: inline-block;
+  background-color: white;
+  width: 25%;
+  height: 100%;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px black;
+  padding: 16px;
+  left: 5.3%;
+  top: 0.5%;
+  box-sizing: border-box;
+  transition: all 0.3s ease-out;
+  min-height: 735px;
+}

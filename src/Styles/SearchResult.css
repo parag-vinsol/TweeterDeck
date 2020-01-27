@@ -1,0 +1,7 @@
+.SearchResult {
+    position: relative;
+    display: inline-block;
+    left: 81px;
+    vertical-align: top;
+    white-space: pre-wrap;
+}

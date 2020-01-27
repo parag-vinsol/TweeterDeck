@@ -1,0 +1,7 @@
+.UserSearchResult {
+    position: relative;
+    display: inline-block;
+    left: 72px;
+    vertical-align: top;
+    white-space: pre-wrap;
+}

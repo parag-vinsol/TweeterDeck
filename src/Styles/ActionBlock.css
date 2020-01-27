@@ -1,0 +1,13 @@
+.ActionBlock {
+  position: absolute;
+  float:left;
+  white-space: normal;
+  margin:1px;
+  padding:5px;
+  width:70px;
+  height:96%;
+  vertical-align:middle; 
+  text-align:center;
+  background:#336699;
+  color:#fff;
+}

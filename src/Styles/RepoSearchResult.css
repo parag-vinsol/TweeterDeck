@@ -1,0 +1,7 @@
+.RepoSearchResult {
+    position: relative;
+    display: inline-block;
+    left: 66px;
+    vertical-align: top;
+    white-space: pre-wrap;
+}
