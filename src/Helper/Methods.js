@@ -10,7 +10,6 @@ export const assignId = (list) => {
   else {
     let id = null;
     let reversedList = _.sortBy(list, 'id').reverse();
-    console.log(reversedList)
     return reversedList[0]["id"];
   }
 }
